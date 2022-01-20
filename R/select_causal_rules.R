@@ -7,7 +7,7 @@
 #' @param rules_matrix_std the standardized causal rules matrix
 #' @param rules_list a vector of causal rules
 #' @param ite_std the standardized ITE
-#' @param binary whether or not the outcome is binary
+#' @param stability_selection whether or not using stability selection to select the causal rules
 #' @param q the selection threshold used in selecting the causal rules
 #' @param rules_method the method for selecting causal rules with binary
 #'  outcomes, either "conservative", "anticonservative", or NA
@@ -74,37 +74,27 @@
 #'
 #' # Select important rules
 #' select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
-#'                                                      ite_std_dis, binary, q, rules_method))
+#'                                                      ite_std_dis, stability_selection, q, rules_method))
 #'
-select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, binary,
-                                q, rules_method) {
+select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, stability_selection, q, rules_method) {
 
   `%>%` <- magrittr::`%>%`
   rules <- NULL
 
-  if (binary) {
-
+  if (stability_selection) {
     # Stability selection
-    stab_mod <- stabs::stabsel(rules_matrix_std, ite_std,
-                               fitfun = "glmnet.lasso", cutoff = q, PFER = 1,
-                               args.fitfun = list(type = rules_method))
+    stab_mod <- stabs::stabsel(rules_matrix_std, ite_std, fitfun = "glmnet.lasso", cutoff = q,
+                               PFER = 0.1, args.fitfun = "conservative")
     rule_stab <- rules_list[stab_mod$selected]
     select_rules <- rule_stab
-
   } else {
-
     # LASSO
-    cv_lasso <- glmnet::cv.glmnet(rules_matrix_std, ite_std, alpha = 1,
-                                  intercept = FALSE)
+    cv_lasso <- glmnet::cv.glmnet(rules_matrix_std, ite_std, alpha = 1, intercept = FALSE)
     aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)
     index_aa <- which(aa[-1,1] != 0)
-    rule_LASSO <- data.frame(rules = rules_list[index_aa],
-                             val = aa[index_aa + 1, 1])
-    rule_LASSO <- (rule_LASSO[order(-rule_LASSO[,2]), ] %>%
-                     dplyr::filter(!is.na(rules)))
+    rule_LASSO <- data.frame(rules = rules_list[index_aa], val = aa[index_aa + 1, 1])
+    rule_LASSO <- rule_LASSO[order(-rule_LASSO[,2]), ] %>% dplyr::filter(!is.na(rules))
     select_rules <- rule_LASSO$rules
-
   }
-
   return(select_rules)
 }

@@ -31,9 +31,10 @@
 #' @param max_nodes the maximum size of the trees' terminal nodes
 #' @param t the common support used in generating the causal rules matrix
 #' @param q the selection threshold used in selecting the causal rules
-#' @param rules_method the method for selecting causal rules with binary outcomes
+#' @param stability_selection whether or not using stability selection for selecting the causal rules
+#' @param rules_method "conservative" vs "anticonservative" causal rules selection
 #' @param include_offset whether or not to include an offset when estimating
-#'  the ITE, for poisson only
+#'  the ITE, for Poisson only
 #' @param offset_name the name of the offset, if it is to be included
 #' @param cate_method the method to estimate the CATE values
 #' @param cate_SL_library the library used if cate_method is set to DRLearner
@@ -54,14 +55,16 @@
 #'                    ite_method_dis = "bart", include_ps_dis = TRUE,
 #'                    ite_method_inf = "bart", include_ps_inf = TRUE,
 #'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-#'                    max_nodes = 5, t = 0.025, q = 0.8)
+#'                    max_nodes = 5, t = 0.025, q = 0.8,
+#'                    stability_selection = TRUE)
 #'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                 ps_method_dis = "SL.xgboost", or_method_dis = NA,
                 ite_method_inf, include_ps_inf = NA,
                 ps_method_inf = "SL.xgboost", or_method_inf = NA,
                 ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
-                rules_method = NA, include_offset = FALSE, offset_name = NA,
+                stability_selection = TRUE, rules_method = NA,
+                include_offset = FALSE, offset_name = NA,
                 cate_method = "DRLearner", cate_SL_library = "SL.xgboost",
                 filter_cate = FALSE) {
 
@@ -316,7 +319,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis, binary, q,
+                                                       ite_std_dis, stability_selection, q,
                                                        rules_method))
 
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
