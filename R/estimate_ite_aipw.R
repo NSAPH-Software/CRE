@@ -40,11 +40,12 @@ estimate_ite_aipw <- function(y, z, X, ps_method = "SL.xgboost",
                        SL.library = or_method,
                        cvControl = list(V=0))
 
+  pred_z <- predict(sl_y, data.frame(X=X, Z=z))
   pred_0 <- predict(sl_y, data.frame(X=X, Z=rep(0, nrow(X))), onlySL = T)
   pred_1 <- predict(sl_y, data.frame(X=X, Z=rep(1, nrow(X))), onlySL = T)
 
-  apo_1 <- pred_1$pred + z*(y - pred_1$pred)/(phat)
-  apo_0 <- pred_0$pred + (1 - z)*(y - pred_0$pred)/(1 - phat)
+  apo_1 <- pred_1$pred + z*(y - pred_z$pred)/(phat)
+  apo_0 <- pred_0$pred + (1 - z)*(y - pred_z$pred)/(1 - phat)
 
   ite <- as.vector(apo_1 - apo_0)
 
