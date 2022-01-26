@@ -1,8 +1,8 @@
 ---
-title: "article_c1"
+title: "Contribution"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{article_c1}
+  %\VignetteIndexEntry{Contribution}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,4 +14,4 @@ knitr::opts_chunk$set(
 )
 ```
 
-The is a placeholder for article c1. 
+Contribution ... 

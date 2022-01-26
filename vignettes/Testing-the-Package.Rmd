@@ -1,0 +1,186 @@
+---
+title: "Testing the CRE Package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{article_c1}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+We encourage all developers to test the package in different conditions. 
+Testing the package is the easiest way to get familiar with the package and its 
+functionalities.  
+
+# Getting the code
+
+
+To test the package, please install the package on your
+system (R (>= 3.5.0)). You can install the package by following one of these 
+approaches:
+
+- Directly from GitHub
+- CRAN (not recommended)
+- Source 
+- Forked Repository (recommended)
+
+## Installing the package directly from Github
+
+In this project, we follow [A successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/).
+As a result, the `develop` branch is the most updated branch for developers. Use
+`devtools::install_github` to install the package. If you do not specify the `ref`,
+it will install the master (or main) branch.  
+
+```r
+library(devtools)
+try(detach("package:CRE", unload = TRUE), silent = TRUE) # if already you have the package, detach and unload it, to have a new install. 
+install_github("fasrc/CRE", ref="develop")
+library(CRE)
+```
+
+Try `?CRE`. It should open the package description page under the help tab 
+(assuming you are using RStudio).
+
+## Installing the package from CRAN
+
+Installing the package from CRAN for developing purposes is not recommended. 
+Because most probably, the version on CRAN is not the latest version. 
+
+[Complete this section after submitting the package to CRAN]
+
+## Installing the package from the source
+
+In order to install the package from the source, you need to download the source 
+code into your computer and install it from the source. Here are the steps:
+
+- Go to package [Github repository](https://github.com/fasrc/CRE) and from the 
+drop-down menu change the branch to `develop`. Then click on the `Code` tab and 
+then click on the `Download Zip` tab.
+
+- Open one of the files using RStudio, then change the project directory to the 
+project directory (`Session > Set Working Directory > To Project Directory`). 
+
+- Load `devtools` library and then load CRE.
+
+```r
+library(devtools)
+load_all()
+?CRE
+```
+
+## Forking the package
+
+Forking the package under your Github account is the best option if you are 
+planning on installing, testing, modifying, and contributing to the 
+project. Go to package [Github repository](https://github.com/fasrc/CRE) and 
+click on the `Fork` button at the top right corner. After forking the package, 
+Open your terminal (or Gitbash for Windows, Anaconda prompt, ...) and run the 
+following command  (brackets are not included):
+
+```S
+git clone git@github.com:[your user name]/CRE.git
+```
+
+Now, you can modify the codebase and track your modification. Navigate to the 
+package folder and Install the package following the 
+**Installing the package from source** steps. It is a good idea 
+to create a new branch to work on the codebase. Read 
+[A successful Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/) for 
+branching convention.
+
+# Testing the Package
+
+Run the following command to test the package. 
+
+```{r, warning=FALSE}
+
+library(CRE)
+
+# Generate sample data
+set.seed(2021)
+dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
+                                     effect_size = 2, binary = FALSE)
+y <- dataset_cont[["y"]]
+z <- dataset_cont[["z"]]
+X <- as.data.frame(dataset_cont[["X"]])
+X_names <- names(as.data.frame(X))
+
+
+# Run parameters
+ratio_dis <- 0.25
+ntrees_rf <- 100
+ntrees_gbm <- 50
+min_nodes <- 20
+max_nodes <- 5
+t <- 0.025
+q <- 0.8
+rules_method <- NA
+include_offset <- FALSE
+offset_name <- NA
+filter_cate <- FALSE
+
+# Poisson CATE estimation with Poisson ITE estimation
+print("Testing Poisson CATE estimation with Poisson ITE estimation")
+cre_results_1 <- cre(y = abs(y), z, X, ratio_dis, ite_method_dis = "poisson",
+                     include_ps_dis = NA, ps_method_dis = "SL.xgboost",
+                     or_method_dis = NA, ite_method_inf = "poisson",
+                     include_ps_inf = NA, ps_method_inf = "SL.xgboost",
+                     or_method_inf = NA, ntrees_rf, ntrees_gbm, min_nodes,
+                     max_nodes, t, q, rules_method, include_offset, offset_name,
+                     cate_method = "poisson", cate_SL_library = NA)
+
+cre_results_1[["CATE_results"]][,1]
+cre_results_1[["CATE_results"]][,1]
+```
+
+```{r, warning=FALSE}
+# DRLearner CATE estimation with AIPW ITE estimation
+print("Testing DRLearner CATE estimation with AIPW ITE estimation")
+cre_results_2 <- cre(y, z, X, ratio_dis, ite_method_dis = "aipw",
+                     include_ps_dis = NA, ps_method_dis = "SL.xgboost",
+                     or_method_dis = "SL.xgboost", ite_method_inf = "aipw",
+                     include_ps_inf = NA, ps_method_inf = "SL.xgboost",
+                     or_method_inf = "SL.xgboost", ntrees_rf, ntrees_gbm,
+                     min_nodes, max_nodes, t, q, rules_method,
+                     include_offset, offset_name, cate_method = "DRLearner",
+                     cate_SL_library = "SL.xgboost")
+
+cre_results_2[["CATE_results"]][,1]
+cre_results_2[["CATE_results"]][,1]
+```
+
+```{r, warning=FALSE}
+# CF-means CATE estimation with BCF ITE estimation
+print("Testing CF-means CATE estimation with BCF ITE estimation")
+cre_results_3 <- cre(y, z, X, ratio_dis, ite_method_dis = "bcf",
+                     include_ps_dis = NA, ps_method_dis = "SL.xgboost",
+                     or_method_dis = NA, ite_method_inf = "bcf",
+                     include_ps_inf = NA, ps_method_inf = "SL.xgboost",
+                     or_method_inf = NA, ntrees_rf, ntrees_gbm, min_nodes,
+                     max_nodes, t, q, rules_method, include_offset, offset_name,
+                     cate_method = "cf-means", cate_SL_library = NA)
+
+cre_results_3[["CATE_results"]][,1]
+cre_results_3[["CATE_results"]][,1]
+plot(cre_results_3)
+```
+
+```{r, warning=FALSE}
+cre_results_4 <- cre(y, z, X, ratio_dis, ite_method_dis = "bart",
+                     include_ps_dis = TRUE, ps_method_dis = "SL.xgboost",
+                     or_method_dis = NA, ite_method_inf = "bart",
+                     include_ps_inf = TRUE, ps_method_inf = "SL.xgboost",
+                     or_method_inf = NA, ntrees_rf, ntrees_gbm, min_nodes,
+                     max_nodes, t, q, rules_method, include_offset,
+                     offset_name, cate_method = "linreg", cate_SL_library = NA)
+
+cre_results_4[["CATE_results"]][,1]
+cre_results_4[["CATE_results"]][,1]
+```
+

@@ -9,3 +9,7 @@ _archive
 ^doc$
 ^Meta$
 index.md
+^CRAN-RELEASE$
+^cran-comments\.md$
+^codecov\.yml$
+^.covrignore

@@ -28,6 +28,15 @@
 #' ite_list <- estimate_ite_xbart(y, z, X, include_ps, ps_method)
 #'
 estimate_ite_xbart <- function(y, z, X, include_ps, ps_method) {
+
+  if (!requireNamespace("XBART", quietly = TRUE)) {
+    stop(
+      "Package \"XBART\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
+
+
   if (include_ps) {
     est_ps <- estimate_ps(z, X, ps_method)
     X <- cbind(X, est_ps)

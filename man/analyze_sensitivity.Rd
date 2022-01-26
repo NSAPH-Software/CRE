@@ -15,5 +15,6 @@ analyze_sensitivity(ite_std, rules_matrix_std)
 a list containing the results of the sensitivity analysis
 }
 \description{
-Method for analyzing the sensitivity of the estimates of the causal rule-specific treatment effects
+Method for analyzing the sensitivity of the estimates of the causal
+rule-specific treatment effects
 }

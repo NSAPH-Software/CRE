@@ -26,6 +26,15 @@
 #' ite_list <- estimate_ite_xbcf(y, z, X, ps_method)
 #'
 estimate_ite_xbcf <- function(y, z, X, ps_method) {
+
+  if (!requireNamespace("XBCF", quietly = TRUE)) {
+    stop(
+      "Package \"XBCF\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
+
+
   est_ps <- estimate_ps(z, X, ps_method)
   xbcf_model <- XBCF::XBCF(y = as.matrix(y), z = as.matrix(z), x_con = as.matrix(X),
                            x_mod = as.matrix(X), pihat = as.matrix(est_ps),

@@ -1,82 +1,76 @@
-Package: CRE
 Type: Package
-Title: Interpretable Subgroups Identification through Ensemble Learning of 
+Package: CRE
+Title: Interpretable Subgroups Identification through Ensemble Learning of
     Causal Rules
 Version: 0.0.1.9000
 Authors@R: c(
-    person(given="Kwonsang", 
-           family = "Lee",
-           role = c("aut"),
-           email = "kwonsanglee.stat@gmail.com",
+    person("Kwonsang", "Lee", , "kwonsanglee.stat@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0002-5823-4331")),
-    person(given="Falco Joannes", 
-           family = "Bargagli Stoffi",
-           role = c("aut"),
-           email = "fbargaglistoffi@hsph.harvard.edu",
+    person("Falco Joannes", "Bargagli Stoffi", , "fbargaglistoffi@hsph.harvard.edu", role = "aut",
            comment = c(ORCID = "0000-0002-6131-8165")),
-    person(given="Daniela Maria", 
-           family = "Garcia",
-           role = c("aut"),
-           email = "danielagarcia@college.harvard.edu",
+    person("Daniela Maria", "Garcia", , "danielagarcia@college.harvard.edu", role = "aut",
            comment = c(ORCID = "0000-0003-3226-3561")),
-    person(given="Naeem",
-           family="Khoshnevis",
-           email = "nkhoshnevis@g.harvard.edu",
-           role=c("aut","cre"), 
-           comment = c(ORCID = "0000-0003-4315-1426", AFFILIATION="FASRC")))
+    person("Naeem", "Khoshnevis", , "nkhoshnevis@g.harvard.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-4315-1426", AFFILIATION = "FASRC"))
+  )
 Maintainer: Naeem Khoshnevis <nkhoshnevis@g.harvard.edu>
-Description: Provides an interpretable identification of subgroups with 
-    heterogeneous causal effect. The heterogeneous subgroups are discovered 
-    through ensemble learning of causal rules. Causal rules are highly 
-    interpretable if-then statement that recursively partition the features 
-    space into heterogeneous subgroups. A small number of significant causal 
-    rules are selected through Stability Selection to control for family-wise 
-    error rate in the finite sample setting. It proposes various estimation 
-    methods for the conditional causal effects for each discovered causal rule. 
-    It is highly flexible and multiple causal estimands and imputation methods 
-    are implemented.  
-    Lee, K., Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
-    Interpretable inference of heterogeneous treatment effects. 
-    arXiv preprint <arXiv:2009.09036>.
+Description: Provides an interpretable identification of subgroups with
+    heterogeneous causal effect. The heterogeneous subgroups are
+    discovered through ensemble learning of causal rules. Causal rules are
+    highly interpretable if-then statement that recursively partition the
+    features space into heterogeneous subgroups. A small number of
+    significant causal rules are selected through Stability Selection to
+    control for family-wise error rate in the finite sample setting. It
+    proposes various estimation methods for the conditional causal effects
+    for each discovered causal rule.  It is highly flexible and multiple
+    causal estimands and imputation methods are implemented.  Lee, K.,
+    Bargagli-Stoffi, F. J., & Dominici, F. (2020). Causal rule ensemble:
+    Interpretable inference of heterogeneous treatment effects.  arXiv
+    preprint <arXiv:2009.09036>.
 License: GPL-3
-Language: en-US
 URL: https://github.com/fasrc/CRE
 BugReports: https://github.com/fasrc/CRE/issues
-Copyright: Harvard University
-Imports: 
-    tidyverse,
-    dplyr,
-    BART,
-    bcf,
-    randomForest,
-    xgboost,
-    gbm,
-    inTrees,
-    stabs,
-    rpart,
-    grf,
-    glmnet,
-    MASS,
-    doParallel,
-    foreach,
-    devtools,
-    XBART,
-    XBCF,
-    stringr,
-    bartCause,
-    gnm,
-    magrittr,
-    baggr,
-    SuperLearner,
-    logger
-Encoding: UTF-8
-RoxygenNote: 7.1.1
-LazyData: true
-Suggests: 
-    knitr,
-    rmarkdown,
-    testthat (>= 3.0.0)
-VignetteBuilder: knitr
-Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 3.5.0)
+Imports: 
+    baggr,
+    BART,
+    bartCause,
+    bcf,
+    devtools,
+    doParallel,
+    dplyr,
+    foreach,
+    gbm,
+    ggplot2,
+    glmnet,
+    gnm,
+    grf,
+    inTrees,
+    logger,
+    magrittr,
+    MASS,
+    randomForest,
+    rpart,
+    stabs,
+    stringr,
+    SuperLearner,
+    tidyverse,
+    xgboost
+Suggests:
+    covr,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    XBART,
+    XBCF
+VignetteBuilder: 
+    knitr
+Additional_repositories: https://github.com/JingyuHe/XBART,
+    https://github.com/johaupt/XBCF
+Copyright: Harvard University
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2

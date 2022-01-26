@@ -126,7 +126,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   ite_method_dis <- tolower(ite_method_dis)
-  if (!(ite_method_dis %in% c("ipw", "sipw", "sipw", "or", "bart", "xbart",
+  if (!(ite_method_dis %in% c("ipw", "sipw", "aipw", "or", "bart", "xbart",
                               "bcf", "xbcf", "cf", "poisson"))) {
     stop(paste("Invalid ITE method for Discovery Subsample. Please choose ",
                "from the following:\n","'ipw', 'sipw', 'aipw', or', 'bart', ",
@@ -218,7 +218,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   }
 
   # Check for correct offset input
-  if (ite_method_dis == "poisson" | ite_method_inf == "poisson" | cate_method == "poisson") {
+  if ((ite_method_dis == "poisson") | (ite_method_inf == "poisson") | (cate_method == "poisson")) {
     if (include_offset == TRUE) {
       if (is.na(offset_name)) {
         stop(paste("Invalid offset_name input. Please specify an offset_name ",
@@ -358,18 +358,20 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                             cate_SL_library, filter_cate)
 
   # Convert cate_inf into an S3 object
-  make_S3 <- function(cate_inf) {
+  make_S3 <- function(cate_inf, cate_method) {
     S3_object <- list()
-    item_names <- colnames(cate_inf)
-    for (i in 1:length(item_names)) {
-      S3_object[[item_names[i]]] <- cate_inf[,i]
-    }
+    S3_object[["CATE_results"]] <- cate_inf
+    S3_object[["CATE_method"]] <- cate_method
+    # item_names <- colnames(cate_inf)
+    # for (i in 1:length(item_names)) {
+    #   S3_object[[item_names[i]]] <- cate_inf[,i]
+    # }
     attr(S3_object, "class") <- "cre"
     return(S3_object)
   }
 
   # Return Results
   logger::log_info("CRE method complete. Returning results.")
-  cate_S3 <- make_S3(cate_inf)
+  cate_S3 <- make_S3(cate_inf, cate_method)
   return(cate_S3)
 }

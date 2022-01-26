@@ -1,15 +1,5 @@
 ## CRE development
 
-### Added
-
-### Changed
-
-### Fixed
-
-### Removed
-
-## CRE 0.0.2 (2022-01-12)
-
 ### Changed
 * `estimate_cate` include five methods for estimating the CATE values (`poisson`, `DRLearner`, `bart-baggr`, `cf-means`, `linreg`)
 * `cre` added new arguments to (1) complement `SuperLearner` package (`ps_method_dis`, `ps_method_inf`, `or_method_dis`, `or_method_inf`, `cate_SL_library`) and to (2) select CATE method and (3) whether to filter CATE p-values (`cate_method` and `filter_cate`). Now returns an S3 object.
@@ -19,6 +9,8 @@
 
 ### Added
 * `estimate_ite_aipw` function for augmented inverse propensity weighting
+* `plot.cre` generic function to plot CRE S3 object Results
+* `test-cre_functional.R` tests the functionality of the package
 
 ### Removed
 * `estimate_ite_blp` function

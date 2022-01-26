@@ -4,211 +4,188 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interpretable Subgroups Identification through Ensemble Learning of 
-    Causal Rules • CRE</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Provides an interpretable identification of subgroups with
+    heterogeneous causal effect. The heterogeneous subgroups are
+    discovered through ensemble learning of causal rules. Causal rules are
+    highly interpretable if-then statement that recursively partition the
+    features space into heterogeneous subgroups. A small number of
+    significant causal rules are selected through Stability Selection to
+    control for family-wise error rate in the finite sample setting. It
+    proposes various estimation methods for the conditional causal effects
+    for each discovered causal rule.  It is highly flexible and multiple
+    causal estimands and imputation methods are implemented.  Lee, K.,
+    Bargagli-Stoffi, F. J., &amp; Dominici, F. (2020). Causal rule ensemble:
+    Interpretable inference of heterogeneous treatment effects.  arXiv
+    preprint &lt;arXiv:2009.09036&gt;.">
+<title>Interpretable Subgroups Identification through Ensemble Learning of Causal Rules • CRE</title>
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
-<link href="docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Interpretable Subgroups Identification through Ensemble Learning of 
-    Causal Rules">
-<meta property="og:description" content="Provides an interpretable identification of subgroups with 
-    heterogeneous causal effect. The heterogeneous subgroups are discovered 
-    through ensemble learning of causal rules. Causal rules are highly 
-    interpretable if-then statement that recursively partition the features 
-    space into heterogeneous subgroups. A small number of significant causal 
-    rules are selected through Stability Selection to control for family-wise 
-    error rate in the finite sample setting. It proposes various estimation 
-    methods for the conditional causal effects for each discovered causal rule. 
-    It is highly flexible and multiple causal estimands and imputation methods 
-    are implemented.  
-    Lee, K., Bargagli-Stoffi, F. J., &amp; Dominici, F. (2020). Causal rule ensemble:
-    Interpretable inference of heterogeneous treatment effects. 
-    arXiv preprint &lt;arXiv:2009.09036&gt;.">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Interpretable Subgroups Identification through Ensemble Learning of Causal Rules">
+<meta property="og:description" content="Provides an interpretable identification of subgroups with
+    heterogeneous causal effect. The heterogeneous subgroups are
+    discovered through ensemble learning of causal rules. Causal rules are
+    highly interpretable if-then statement that recursively partition the
+    features space into heterogeneous subgroups. A small number of
+    significant causal rules are selected through Stability Selection to
+    control for family-wise error rate in the finite sample setting. It
+    proposes various estimation methods for the conditional causal effects
+    for each discovered causal rule.  It is highly flexible and multiple
+    causal estimands and imputation methods are implemented.  Lee, K.,
+    Bargagli-Stoffi, F. J., &amp; Dominici, F. (2020). Causal rule ensemble:
+    Interpretable inference of heterogeneous treatment effects.  arXiv
+    preprint &lt;arXiv:2009.09036&gt;.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">CRE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">CRE</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="articles/CRE.html">Get started</a>
 </li>
-<li>
-  <a href="articles/CRE.html">Get started</a>
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li class="divider">
-    <li class="dropdown-header">Users</li>
-    <li>
-      <a href="articles/article_i1.html">article_i1</a>
-    </li>
-    <li>
-      <a href="articles/article_i2.html">article_i2</a>
-    </li>
-    <li>
-      <a href="articles/article_i3.html">article_i3</a>
-    </li>
-    <li class="divider">
-    <li class="dropdown-header">Developers</li>
-  </ul>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/fasrc/CRE/">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
-        <div class="form-group">
-          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
-</div>
-      </form>
-      
-    </div>
-<!--/.nav-collapse -->
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <h6 class="dropdown-header" data-toc-skip>Users</h6>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Developers</h6>
+    <a class="dropdown-item" href="articles/Contribution.html">Contribution</a>
+    <a class="dropdown-item" href="articles/Testing-the-Package.html">Testing the CRE Package</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="nav-link" href="https://github.com/fasrc/CRE/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-
-<div id="cre-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#cre-" class="anchor"></a>CRE <a href="https://fasrc.github.io/CRE/"><img src="reference/figures/png/CRE_logo.png" align="right" height="115"></a>
+    
+  </div>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="cre-">CRE <a href="https://fasrc.github.io/CRE/" class="external-link"><img src="reference/figures/png/CRE_logo.png" align="right" width="115"></a>
+<a class="anchor" aria-label="anchor" href="#cre-"></a>
 </h1></div>
 <!-- badges: start -->
 
 </div>
-<div id="overview" class="section level1">
-<h1 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h1>
+<div class="section level1">
+<h1 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h1>
 <p>Causal subgroup identification is a powerful statistical tool for determining vulnerabilities in a population with respect to a particular treatment. As causal machine learning provides an efficient and accurate tool for data-driven subgroup identification, software packages are proving an essential means to easily disseminate and reproduce these algorithms broadly.</p>
 <p>The CRE Package, written in R and available on GitHub, implements the recently developed Causal Rule Ensemble (CRE) algorithm, a flexible and precise method for denovo subgroup discovery. The CRE approach focuses on identifying drivers of treatment heterogeneity in observational or randomized studies in the presence of an intervention or treatment.</p>
 </div>
-<div id="package-details" class="section level1">
-<h1 class="hasAnchor">
-<a href="#package-details" class="anchor"></a>Package Details</h1>
+<div class="section level1">
+<h1 id="package-details">Package Details<a class="anchor" aria-label="anchor" href="#package-details"></a>
+</h1>
 <p>The Package is centered on one R function, <code><a href="reference/cre.html">cre()</a></code>, that conducts the entirety of the CRE algorithm given a dataset and a series of input parameters from the user. The <code><a href="reference/cre.html">cre()</a></code> function calls on a number of helper functions to conduct discovery and inference subsample analysis. For example, for the estimation of Individual Treatment Effects, users can select a particular method from a large list of methodologies, each of which vary with respect to their speed and precision. The parameter selections will determine which helper functions the <code><a href="reference/cre.html">cre()</a></code> calls.</p>
 <p>The CRE method splits the inputted data into discovery and inference subsamples. On the discovery subsample, it generates and filters causal rules that explain the heterogeneity in treatment effects. It then applies these rules to the inference subsample and estimates the Conditional Average Treatment Effect (CATE) for each subgroup.</p>
 <p>The final output of the <code><a href="reference/cre.html">cre()</a></code> is the list of selected causal rules that identify the subgroups with higher heterogeneity in the effects and the matrix of estimated CATEs for each rule, both of which are highly accessible and interpretable.</p>
 <p>Note: A sensitivity analysis for unmeasured confounding will also be implemented in a later version.</p>
 </div>
-<div id="applications" class="section level1">
-<h1 class="hasAnchor">
-<a href="#applications" class="anchor"></a>Applications</h1>
+<div class="section level1">
+<h1 id="applications">Applications<a class="anchor" aria-label="anchor" href="#applications"></a>
+</h1>
 <p>Through this package, any user can apply the method to a variety of new datasets. The applications of the CRE method and R package are vast, with a notable potential impact in the field of public health. We intend to apply the method to a dataset linking air pollution (PM2.5) data to Medicare mortality data across the United States. Our empirical goal is to identify the most vulnerable communities, to inform policymakers on how to mitigate the negative health and economic effects on these subgroups and reduce inequality.</p>
 </div>
 
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/fasrc/CRE/">https://​github.com/​fasrc/​CRE/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/fasrc/CRE/issues">https://​github.com/​fasrc/​CRE/​issues</a>
-</li>
+<li><a href="https://github.com/fasrc/CRE/">Browse source code</a></li>
+<li><a href="https://github.com/fasrc/CRE/issues">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Kwonsang Lee <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5823-4331" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Falco Joannes Bargagli Stoffi <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6131-8165" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Daniela Maria Garcia <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3226-3561" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Naeem Khoshnevis <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4315-1426" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> <br><small>(FASRC)</small>
-</li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing CRE</a></li>
+</ul>
+</div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Kwonsang Lee <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5823-4331" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Falco Joannes Bargagli Stoffi <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6131-8165" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Daniela Maria Garcia <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3226-3561" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Naeem Khoshnevis <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4315-1426" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/fasrc/CRE/actions"><img src="https://github.com/fasrc/CRE/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/fasrc/CRE" class="external-link"><img src="https://codecov.io/gh/fasrc/CRE/branch/develop/graph/badge.svg?token=UMSVOYRKGA" alt="codecov"></a></li>
 </ul>
 </div>
-</div>
-</div>
 
-
-      <footer><div class="copyright">
-  <p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela Maria Garcia, Naeem Khoshnevis.</p>
+  </aside>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Kwonsang Lee, Falco Joannes Bargagli Stoffi, Daniela Maria Garcia, Naeem Khoshnevis.</p>
 </div>
 
-      </footer>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+</div>
+
+    </footer>
 </div>
 
   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
-  docsearch({
-    
-    
-    apiKey: 'API_KEY',
-    indexName: 'INDEX_NAME',
-    inputSelector: 'input#search-input.form-control',
-    transformData: function(hits) {
-      return hits.map(function (hit) {
-        hit.url = updateHitURL(hit);
-        return hit;
-      });
-    }
-  });
-</script>
-</body>
+
+  
+
+  </body>
 </html>

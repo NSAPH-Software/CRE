@@ -1,4 +1,11 @@
+url: https://github.com/fasrc/CRE/
+
+home:
+  title: Interpretable Subgroups Identification through Ensemble Learning of
+    Causal Rules
+
 template:
+  bootstrap: 5
   params:
     bootswatch: flatly
     docsearch:
@@ -10,6 +17,7 @@ reference:
   - title: Causal Rule Ensemble
     contents:
     - cre
+    - cre_crossfit
   - title: Discovery
     contents:
     - estimate_ite
@@ -43,8 +51,8 @@ reference:
 articles:
   - title: Users
     navbar: Users
-    contents: [article_i1,article_i2,article_i3]
+    contents: []
 
   - title: Developers
     navbar: Developers
-    contents: [Contribution, How-test-the-package]
+    contents: [Contribution, Testing-the-Package]

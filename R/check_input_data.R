@@ -11,7 +11,6 @@
 #' @return
 #' Number of data samples.
 #'
-#' @export
 #'
 check_input_data <- function(y, z, X){
 
