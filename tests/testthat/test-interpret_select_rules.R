@@ -16,7 +16,8 @@ test_that("Rules Interpreted Correctly", {
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  rules_method <- NA
+  stability_selection <- TRUE
+  pfer_val <- 0.1
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -44,7 +45,8 @@ test_that("Rules Interpreted Correctly", {
 
   # Step 5: Select important rules
   select_rules <- as.character(select_causal_rules(rules_matrix_std, rules_list_dis,
-                                                   ite_std, binary, q, rules_method))
+                                                   ite_std, q, stability_selection,
+                                                   pfer_val))
 
   ###### Run Tests ######
 

@@ -7,10 +7,9 @@
 #' @param rules_matrix_std the standardized causal rules matrix
 #' @param rules_list a vector of causal rules
 #' @param ite_std the standardized ITE
-#' @param stability_selection whether or not using stability selection to select the causal rules
 #' @param q the selection threshold used in selecting the causal rules
-#' @param rules_method the method for selecting causal rules with binary
-#'  outcomes, either "conservative", "anticonservative", or NA
+#' @param stability_selection whether or not using stability selection to select the causal rules
+#' @param pfer_val the Per-Family Error Rate, the expected number of false discoveries
 #'
 #' @return
 #' a vector of causal rules
@@ -37,7 +36,8 @@
 #' max_nodes <- 5
 #' t <- 0.025
 #' q <- 0.8
-#' rules_method <- NA
+#' stability_selection <- TRUE
+#' pfer_val <- 0.1
 #' include_offset <- FALSE
 #' offset_name <- NA
 #' binary <- FALSE
@@ -73,23 +73,28 @@
 #' rules_list_dis <- rules_all_dis[["rules_list"]]
 #'
 #' # Select important rules
-#' select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
-#'                                                      ite_std_dis, stability_selection, q, rules_method))
+#' select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
+#'                                                      rules_list_dis,
+#'                                                      ite_std_dis, q,
+#'                                                      stability_selection,
+#'                                                      pfer_val))
 #'
-select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, stability_selection, q, rules_method) {
+select_causal_rules <- function(rules_matrix_std, rules_list, ite_std, q,
+                                stability_selection, pfer_val) {
 
   `%>%` <- magrittr::`%>%`
   rules <- NULL
 
   if (stability_selection) {
     # Stability selection
-    stab_mod <- stabs::stabsel(rules_matrix_std, ite_std, fitfun = "glmnet.lasso", cutoff = q,
-                               PFER = 0.1, args.fitfun = "conservative")
+    stab_mod <- stabs::stabsel(rules_matrix_std, ite_std, fitfun = "glmnet.lasso",
+                               cutoff = q, PFER = pfer_val,
+                               args.fitfun = "conservative")
     rule_stab <- rules_list[stab_mod$selected]
     select_rules <- rule_stab
   } else {
     # LASSO
-    cv_lasso <- glmnet::cv.glmnet(rules_matrix_std, ite_std, alpha = 1, intercept = FALSE)
+    cv_lasso <- glmnet::cv.glmnet(rules_matrix_std, ite_std, alpha = 1, intercept = F)
     aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)
     index_aa <- which(aa[-1,1] != 0)
     rule_LASSO <- data.frame(rules = rules_list[index_aa], val = aa[index_aa + 1, 1])

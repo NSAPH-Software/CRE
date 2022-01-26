@@ -32,7 +32,7 @@
 #' @param t the common support used in generating the causal rules matrix
 #' @param q the selection threshold used in selecting the causal rules
 #' @param stability_selection whether or not using stability selection for selecting the causal rules
-#' @param rules_method "conservative" vs "anticonservative" causal rules selection
+#' @param pfer_val the Per-Family Error Rate, the expected number of false discoveries
 #' @param include_offset whether or not to include an offset when estimating
 #'  the ITE, for Poisson only
 #' @param offset_name the name of the offset, if it is to be included
@@ -55,15 +55,14 @@
 #'                    ite_method_dis = "bart", include_ps_dis = TRUE,
 #'                    ite_method_inf = "bart", include_ps_inf = TRUE,
 #'                    ntrees_rf = 100, ntrees_gbm = 50, min_nodes = 20,
-#'                    max_nodes = 5, t = 0.025, q = 0.8,
-#'                    stability_selection = TRUE)
+#'                    max_nodes = 5, t = 0.025, q = 0.8)
 #'
 cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                 ps_method_dis = "SL.xgboost", or_method_dis = NA,
                 ite_method_inf, include_ps_inf = NA,
                 ps_method_inf = "SL.xgboost", or_method_inf = NA,
                 ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
-                stability_selection = TRUE, rules_method = NA,
+                stability_selection = TRUE, pfer_val = 0.1,
                 include_offset = FALSE, offset_name = NA,
                 cate_method = "DRLearner", cate_SL_library = "SL.xgboost",
                 filter_cate = FALSE) {
@@ -206,15 +205,17 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     }
   }
 
-  # Check for correct rules_method input
-  rules_method <- tolower(rules_method)
-  if (binary) {
-    if (!(rules_method %in% c("conservative", "anticonservative"))) {
-      stop(paste("Invalid rules_method input. Please specify 'conservative' ",
-                 "or 'anticonservative'."))
+  # Check for correct stability_selection and pfer_val input
+  if (!(stability_selection %in% c(TRUE, FALSE))) {
+    stop("Please specify 'TRUE' or 'FALSE' for the stability_selection argument.")
+
+  }
+  if (stability_selection) {
+    if (class(pfer_val) != "numeric"){
+      stop("Invalid 'pfer_val' input. Please input a number.")
     }
   } else {
-    rules_method <- NA
+    pfer_val <- NA
   }
 
   # Check for correct offset input
@@ -319,8 +320,9 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis, stability_selection, q,
-                                                       rules_method))
+                                                       ite_std_dis, q,
+                                                       stability_selection,
+                                                       pfer_val))
 
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
@@ -357,21 +359,19 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                             cate_method, ite_inf, sd_ite_inf,
                             cate_SL_library, filter_cate)
 
-  # Convert cate_inf into an S3 object
-  make_S3 <- function(cate_inf, cate_method) {
-    S3_object <- list()
-    S3_object[["CATE_results"]] <- cate_inf
-    S3_object[["CATE_method"]] <- cate_method
-    # item_names <- colnames(cate_inf)
-    # for (i in 1:length(item_names)) {
-    #   S3_object[[item_names[i]]] <- cate_inf[,i]
-    # }
-    attr(S3_object, "class") <- "cre"
-    return(S3_object)
-  }
+  # Generate final S3 object
+  cate_S3 <- list()
+  cate_S3[["CATE_results"]] <- cate_inf
+  cate_S3[["CATE_method"]] <- cate_method
+  cate_S3[["select_rules"]] <- select_rules_interpretable
+  cate_S3[["rules_matrix_inf"]] <- rules_matrix_inf
+  cate_S3[["outcome_vector_inf"]] <- y_inf
+  cate_S3[["treatment_vector_inf"]] <- z_inf
+  cate_S3[["covariates_matrix_inf"]] <- X_inf
+  cate_S3[["ite_list_inf"]] <- ite_list_inf
+  attr(cate_S3, "class") <- "cre"
 
   # Return Results
   logger::log_info("CRE method complete. Returning results.")
-  cate_S3 <- make_S3(cate_inf, cate_method)
   return(cate_S3)
 }

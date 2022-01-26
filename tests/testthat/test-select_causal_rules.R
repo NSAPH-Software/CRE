@@ -16,7 +16,8 @@ test_that("Causal Rules Selected Correctly", {
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  rules_method <- NA
+  stability_selection <- TRUE
+  pfer_val <- 0.1
 
   # Check for binary outcome
   binary <- ifelse(length(unique(y)) == 2, TRUE, FALSE)
@@ -45,17 +46,14 @@ test_that("Causal Rules Selected Correctly", {
 
   # Incorrect inputs
   expect_error(select_causal_rules(rules_matrix_std = "test",
-                                   rules_list, ite_std, binary, q,
-                                   rules_method))
+                                   rules_list, ite_std, q,
+                                   stability_selection, pfer_val))
   expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std = "test", binary, q,
-                                   rules_method))
-  expect_error(select_causal_rules(rules_matrix_std, rules_list,
-                                   ite_std, binary = "test", q,
-                                   rules_method))
+                                   ite_std = "test", q,
+                                   stability_selection, pfer_val))
 
   # Correct outputs
   select_rules <- select_causal_rules(rules_matrix_std, rules_list, ite_std,
-                                      binary, q, rules_method)
+                                      q, stability_selection, pfer_val)
   expect_true(class(select_rules) == "character")
 })

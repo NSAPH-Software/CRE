@@ -8,9 +8,9 @@ select_causal_rules(
   rules_matrix_std,
   rules_list,
   ite_std,
-  binary,
   q,
-  rules_method
+  stability_selection,
+  pfer_val
 )
 }
 \arguments{
@@ -20,12 +20,11 @@ select_causal_rules(
 
 \item{ite_std}{the standardized ITE}
 
-\item{binary}{whether or not the outcome is binary}
-
 \item{q}{the selection threshold used in selecting the causal rules}
 
-\item{rules_method}{the method for selecting causal rules with binary
-outcomes, either "conservative", "anticonservative", or NA}
+\item{stability_selection}{whether or not using stability selection to select the causal rules}
+
+\item{pfer_val}{the Per-Family Error Rate, the expected number of false discoveries}
 }
 \value{
 a vector of causal rules
@@ -53,7 +52,8 @@ min_nodes <- 20
 max_nodes <- 5
 t <- 0.025
 q <- 0.8
-rules_method <- NA
+stability_selection <- TRUE
+pfer_val <- 0.1
 include_offset <- FALSE
 offset_name <- NA
 binary <- FALSE
@@ -89,7 +89,10 @@ rules_matrix_std_dis <- rules_all_dis[["rules_matrix_std"]]
 rules_list_dis <- rules_all_dis[["rules_list"]]
 
 # Select important rules
-select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis, rules_list_dis,
-                                                     ite_std_dis, binary, q, rules_method))
+select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
+                                                     rules_list_dis,
+                                                     ite_std_dis, q,
+                                                     stability_selection,
+                                                     pfer_val))
 
 }

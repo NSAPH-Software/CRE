@@ -31,7 +31,8 @@
 #' @param max_nodes the maximum size of the trees' terminal nodes
 #' @param t the common support used in generating the causal rules matrix
 #' @param q the selection threshold used in selecting the causal rules
-#' @param rules_method the method for selecting causal rules with binary outcomes
+#' @param stability_selection whether or not using stability selection for selecting the causal rules
+#' @param pfer_val the Per-Family Error Rate, the expected number of false discoveries
 #' @param include_offset whether or not to include an offset when estimating
 #'  the ITE, for poisson only
 #' @param offset_name the name of the offset, if it is to be included
@@ -64,9 +65,10 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
                          ite_method_inf, include_ps_inf = NA,
                          ps_method_inf = "SL.xgboost", or_method_inf = NA,
                          ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
-                         rules_method = NA, include_offset = FALSE,
-                         offset_name = NA, cate_method = "DRLearner",
-                         cate_SL_library = "SL.xgboost", filter_cate = FALSE) {
+                         stability_selection = TRUE, pfer_val = 0.1,
+                         include_offset = FALSE,  offset_name = NA,
+                         cate_method = "DRLearner", cate_SL_library = "SL.xgboost",
+                         filter_cate = FALSE) {
 
   # Input checks ---------------------------------------------------------------
   if (!(class(y) %in% c("numeric", "integer"))){
@@ -201,15 +203,17 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
     }
   }
 
-  # Check for correct rules_method input
-  rules_method <- tolower(rules_method)
-  if (binary) {
-    if (!(rules_method %in% c("conservative", "anticonservative"))) {
-      stop(paste("Invalid rules_method input. Please specify 'conservative' ",
-                 "or 'anticonservative'."))
+  # Check for correct stability_selection and pfer_val input
+  if (!(stability_selection %in% c(TRUE, FALSE))) {
+    stop("Please specify 'TRUE' or 'FALSE' for the stability_selection argument.")
+
+  }
+  if (stability_selection) {
+    if (class(pfer_val) != "numeric"){
+      stop("Invalid 'pfer_val' input. Please input a number.")
     }
   } else {
-    rules_method <- NA
+    pfer_val <- NA
   }
 
   # Check for correct offset input
@@ -358,8 +362,9 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
   logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis_1 <- as.character(select_causal_rules(rules_matrix_std_dis_1,
                                                          rules_list_dis_1,
-                                                         ite_std_dis_1, binary,
-                                                         q, rules_method))
+                                                         ite_std_dis_1,
+                                                         q, stability_selection,
+                                                         pfer_val))
 
   select_rules_matrix_dis_1 <- rules_matrix_dis_1[,which(rules_list_dis_1 %in%
                                                          select_rules_dis_1)]
@@ -413,8 +418,9 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
   logger::log_info("Selecting Important Causal Rules ...")
   select_rules_dis_2 <- as.character(select_causal_rules(rules_matrix_std_dis_2,
                                                          rules_list_dis_2,
-                                                         ite_std_dis_2, binary,
-                                                         q, rules_method))
+                                                         ite_std_dis_2,
+                                                         q, stability_selection,
+                                                         pfer_val))
 
   select_rules_matrix_dis_2 <- rules_matrix_dis_2[,which(rules_list_dis_2 %in%
                                                          select_rules_dis_2)]
@@ -481,19 +487,25 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
     colnames(cate_inf_crossfit) <- colnames(cate_inf_1_sorted)
   }
 
-  # Convert cate_inf_crossfit into an S3 object
-  make_S3 <- function(cate_inf_crossfit) {
-    S3_object <- list()
-    item_names <- colnames(cate_inf_crossfit)
-    for (i in 1:length(item_names)) {
-      S3_object[[item_names[i]]] <- cate_inf_crossfit[,i]
-    }
-    attr(S3_object, "class") <- "cre"
-    return(S3_object)
-  }
+  # Generate final S3 object
+  cate_S3 <- list()
+  cate_S3[["CATE_results"]] <- cate_inf_crossfit
+  cate_S3[["CATE_method"]] <- cate_method
+  cate_S3[["select_rules_1"]] <- select_rules_interpretable_1
+  cate_S3[["rules_matrix_1"]] <- rules_matrix_inf_1
+  cate_S3[["outcome_vector_1"]] <- y_dis
+  cate_S3[["treatment_vector_1"]] <- z_dis
+  cate_S3[["covariates_matrix_1"]] <- X_dis
+  cate_S3[["ite_list_inf_1"]] <- ite_list_inf_1
+  cate_S3[["select_rules_2"]] <- select_rules_interpretable_2
+  cate_S3[["rules_matrix_2"]] <- rules_matrix_inf_2
+  cate_S3[["outcome_vector_2"]] <- y_inf
+  cate_S3[["treatment_vector_2"]] <- z_inf
+  cate_S3[["covariates_matrix_2"]] <- X_inf
+  cate_S3[["ite_list_inf_2"]] <- ite_list_inf_2
+  attr(cate_S3, "class") <- "cre"
 
   # Return Results
   logger::log_info("CRE method complete. Returning results.")
-  cate_S3 <- make_S3(cate_inf_crossfit)
   return(cate_S3)
 }

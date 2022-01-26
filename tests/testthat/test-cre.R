@@ -22,7 +22,8 @@ test_that("CRE Runs Correctly", {
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  rules_method <- NA
+  stability_selection <- TRUE
+  pfer_val <- 0.1
   include_offset <- FALSE
   offset_name <- NA
   cate_method <- "DRLearner"
@@ -32,60 +33,60 @@ test_that("CRE Runs Correctly", {
   # Incorrect y, z, X input
   expect_error(cre(y = "test", z, X, ratio_dis, ite_method_dis, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z = "test", X, ratio_dis, ite_method_dis, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf,  ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X = "test", ratio_dis, ite_method_dis, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
 
   # Incorrect ratio_dis input
   expect_error(cre(y, z, X, ratio_dis = NA, ite_method_dis, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis = 2, ite_method_dis, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
 
   # Incorrect ite_method input
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis = 0, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis = "test", include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf = 0, include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis, include_ps_dis,
                    ps_method_dis, or_method_dis, ite_method_inf = "test", include_ps_inf,
-                   ps_method_inf, or_method_inf,
-                   ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q, rules_method,
+                   ps_method_inf, or_method_inf, ntrees_rf, ntrees_gbm,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
 
@@ -95,7 +96,7 @@ test_that("CRE Runs Correctly", {
                    ite_method_inf, include_ps_inf,
                    ps_method_inf, or_method_inf,
                    ntrees_rf = "test", ntrees_gbm,
-                   min_nodes, max_nodes, t, q, rules_method,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
@@ -103,7 +104,7 @@ test_that("CRE Runs Correctly", {
                    ite_method_inf, include_ps_inf,
                    ps_method_inf, or_method_inf,
                    ntrees_rf, ntrees_gbm = "test",
-                   min_nodes, max_nodes, t, q, rules_method,
+                   min_nodes, max_nodes, t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
@@ -111,7 +112,8 @@ test_that("CRE Runs Correctly", {
                    ite_method_inf, include_ps_inf,
                    ps_method_inf, or_method_inf,
                    ntrees_rf, ntrees_gbm,
-                   min_nodes = "test", max_nodes, t, q, rules_method,
+                   min_nodes = "test", max_nodes, t, q,
+                   stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
@@ -119,7 +121,7 @@ test_that("CRE Runs Correctly", {
                    ite_method_inf, include_ps_inf,
                    ps_method_inf, or_method_inf,
                    ntrees_rf, ntrees_gbm, min_nodes,
-                   max_nodes = "test", t, q, rules_method,
+                   max_nodes = "test", t, q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
@@ -127,7 +129,7 @@ test_that("CRE Runs Correctly", {
                    ite_method_inf, include_ps_inf,
                    ps_method_inf, or_method_inf,
                    ntrees_rf, ntrees_gbm, min_nodes,
-                   max_nodes, t = "test", q, rules_method,
+                   max_nodes, t = "test", q, stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
   expect_error(cre(y, z, X, ratio_dis, ite_method_dis,
@@ -135,7 +137,7 @@ test_that("CRE Runs Correctly", {
                    ite_method_inf, include_ps_inf,
                    ps_method_inf, or_method_inf,
                    ntrees_rf, ntrees_gbm, min_nodes,
-                   max_nodes, t, q = "test", rules_method,
+                   max_nodes, t, q = "test", stability_selection, pfer_val,
                    include_offset, offset_name,
                    cate_method, cate_SL_library, filter_cate))
 
@@ -144,7 +146,7 @@ test_that("CRE Runs Correctly", {
                      ps_method_dis, or_method_dis, ite_method_inf,
                      include_ps_inf, ps_method_inf, or_method_inf,
                      ntrees_rf, ntrees_gbm, min_nodes, max_nodes, t, q,
-                     rules_method, include_offset, offset_name,
+                     stability_selection, pfer_val, include_offset, offset_name,
                      cate_method, cate_SL_library, filter_cate)
   expect_true(class(cre_results) == "cre")
 })

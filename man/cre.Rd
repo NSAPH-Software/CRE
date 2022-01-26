@@ -23,7 +23,8 @@ cre(
   max_nodes,
   t,
   q,
-  rules_method = NA,
+  stability_selection = TRUE,
+  pfer_val = 0.1,
   include_offset = FALSE,
   offset_name = NA,
   cate_method = "DRLearner",
@@ -76,10 +77,12 @@ estimate_ite_aipw on the inference subsample}
 
 \item{q}{the selection threshold used in selecting the causal rules}
 
-\item{rules_method}{the method for selecting causal rules with binary outcomes}
+\item{stability_selection}{whether or not using stability selection for selecting the causal rules}
+
+\item{pfer_val}{the Per-Family Error Rate, the expected number of false discoveries}
 
 \item{include_offset}{whether or not to include an offset when estimating
-the ITE, for poisson only}
+the ITE, for Poisson only}
 
 \item{offset_name}{the name of the offset, if it is to be included}
 

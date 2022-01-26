@@ -99,9 +99,7 @@ branching convention.
 Run the following command to test the package. 
 
 ```{r, warning=FALSE}
-
 library(CRE)
-
 # Generate sample data
 set.seed(2021)
 dataset_cont <- generate_cre_dataset(n = 1000, rho = 0, n_rules = 2, p = 10,
@@ -110,8 +108,6 @@ y <- dataset_cont[["y"]]
 z <- dataset_cont[["z"]]
 X <- as.data.frame(dataset_cont[["X"]])
 X_names <- names(as.data.frame(X))
-
-
 # Run parameters
 ratio_dis <- 0.25
 ntrees_rf <- 100
@@ -124,7 +120,6 @@ rules_method <- NA
 include_offset <- FALSE
 offset_name <- NA
 filter_cate <- FALSE
-
 # Poisson CATE estimation with Poisson ITE estimation
 print("Testing Poisson CATE estimation with Poisson ITE estimation")
 cre_results_1 <- cre(y = abs(y), z, X, ratio_dis, ite_method_dis = "poisson",
@@ -132,9 +127,9 @@ cre_results_1 <- cre(y = abs(y), z, X, ratio_dis, ite_method_dis = "poisson",
                      or_method_dis = NA, ite_method_inf = "poisson",
                      include_ps_inf = NA, ps_method_inf = "SL.xgboost",
                      or_method_inf = NA, ntrees_rf, ntrees_gbm, min_nodes,
-                     max_nodes, t, q, rules_method, include_offset, offset_name,
+                     max_nodes, t, q, stability_selection = TRUE, 
+                     pfer_val = 0.1, include_offset, offset_name,
                      cate_method = "poisson", cate_SL_library = NA)
-
 cre_results_1[["CATE_results"]][,1]
 cre_results_1[["CATE_results"]][,1]
 ```
@@ -147,10 +142,9 @@ cre_results_2 <- cre(y, z, X, ratio_dis, ite_method_dis = "aipw",
                      or_method_dis = "SL.xgboost", ite_method_inf = "aipw",
                      include_ps_inf = NA, ps_method_inf = "SL.xgboost",
                      or_method_inf = "SL.xgboost", ntrees_rf, ntrees_gbm,
-                     min_nodes, max_nodes, t, q, rules_method,
-                     include_offset, offset_name, cate_method = "DRLearner",
-                     cate_SL_library = "SL.xgboost")
-
+                     min_nodes, max_nodes, t, q, stability_selection = TRUE,
+                     pfer_val = 0.1, include_offset, offset_name, 
+                     cate_method = "DRLearner", cate_SL_library = "SL.xgboost")
 cre_results_2[["CATE_results"]][,1]
 cre_results_2[["CATE_results"]][,1]
 ```
@@ -163,9 +157,9 @@ cre_results_3 <- cre(y, z, X, ratio_dis, ite_method_dis = "bcf",
                      or_method_dis = NA, ite_method_inf = "bcf",
                      include_ps_inf = NA, ps_method_inf = "SL.xgboost",
                      or_method_inf = NA, ntrees_rf, ntrees_gbm, min_nodes,
-                     max_nodes, t, q, rules_method, include_offset, offset_name,
+                     max_nodes, t, q, stability_selection = TRUE, 
+                     pfer_val = 0.1, include_offset, offset_name,
                      cate_method = "cf-means", cate_SL_library = NA)
-
 cre_results_3[["CATE_results"]][,1]
 cre_results_3[["CATE_results"]][,1]
 plot(cre_results_3)
@@ -177,10 +171,9 @@ cre_results_4 <- cre(y, z, X, ratio_dis, ite_method_dis = "bart",
                      or_method_dis = NA, ite_method_inf = "bart",
                      include_ps_inf = TRUE, ps_method_inf = "SL.xgboost",
                      or_method_inf = NA, ntrees_rf, ntrees_gbm, min_nodes,
-                     max_nodes, t, q, rules_method, include_offset,
+                     max_nodes, t, q, stability_selection = TRUE, 
+                     pfer_val = 0.1, include_offset,
                      offset_name, cate_method = "linreg", cate_SL_library = NA)
-
 cre_results_4[["CATE_results"]][,1]
 cre_results_4[["CATE_results"]][,1]
 ```
-

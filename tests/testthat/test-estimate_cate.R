@@ -22,7 +22,8 @@ test_that("CATE Estimation Runs Correctly", {
   max_nodes <- 5
   t <- 0.025
   q <- 0.8
-  rules_method <- NA
+  stability_selection <- TRUE
+  pfer_val <- 0.1
   include_offset <- FALSE
   offset_name <- NA
   cate_method <- "DRLearner"
@@ -69,8 +70,8 @@ test_that("CATE Estimation Runs Correctly", {
   # Step 5: Select important rules
   select_rules_dis <- as.character(select_causal_rules(rules_matrix_std_dis,
                                                        rules_list_dis,
-                                                       ite_std_dis, binary,
-                                                       q, rules_method))
+                                                       ite_std_dis, q,
+                                                       stability_selection, pfer_val))
   select_rules_matrix_dis <- rules_matrix_dis[,which(rules_list_dis %in%
                                                        select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
