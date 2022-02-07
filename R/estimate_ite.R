@@ -81,7 +81,7 @@ estimate_ite <- function(y, z, X, ite_method, include_ps, ps_method, or_method,
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "bcf") {
-    ite_results <- estimate_ite_bcf(y, z, X, ps_method)
+    ite_results <- estimate_ite_bcf(y, z, as.matrix(X), ps_method)
     ite <- ite_results[[1]]
     sd_ite <- ite_results[[2]]
   } else if (ite_method == "xbcf") {

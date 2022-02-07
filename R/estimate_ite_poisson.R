@@ -42,13 +42,13 @@ estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) 
                                                     which(X_names == offset_name)])
     offset_control <- data.frame(offset_control = X[z==0,
                                                     which(X_names == offset_name)])
-    model_data_treated <- cbind(y_treated, X_treated, offset_treated)
-    model_data_control <- cbind(y_control, X_control, offset_control)
-    temp1 <- stats::glm(y_treated ~ offset(log(offset_treated)) +
-                          X_treated, data = model_data_treated,
+    model_data_treated <- cbind(y_treated, X_treated)
+    model_data_control <- cbind(y_control, X_control)
+    temp1 <- stats::glm(y ~ ., data = model_data_treated,
+                        offset = unlist(offset_treated),
                         family = stats::poisson(link = "log"))
-    temp0 <- stats::glm(y_control ~ offset(log(offset_control)) +
-                          X_control, data = model_data_control,
+    temp0 <- stats::glm(y ~ ., data = model_data_control,
+                        offset = unlist(offset_control),
                         family = stats::poisson(link = "log"))
   } else {
     y_treated <- data.frame(y = y[z==1])
@@ -62,8 +62,8 @@ estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) 
     temp0 <- stats::glm(y ~ ., data = model_data_control,
                         family = stats::poisson(link = "log"))
   }
-  y1hat <- stats::predict(temp1, as.data.frame(X))
-  y0hat <- stats::predict(temp0, as.data.frame(X))
+  y1hat <- suppressWarnings(stats::predict(temp1, as.data.frame(X)))
+  y0hat <- suppressWarnings(stats::predict(temp0, as.data.frame(X)))
   ite <- y1hat - y0hat
   return(ite)
 }

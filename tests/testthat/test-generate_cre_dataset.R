@@ -28,8 +28,21 @@ test_that("Synthetic Data Generated Correctly", {
                                     n_rules = 2, p = 10, effect_size = 0.5,
                                     binary = "test"))
 
-  # Correct outputs
+  # 2 rules
   test_data_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 2, p = 10,
+                                         effect_size = 0.5, binary = TRUE)
+  expect_true(class(test_data_cont) == "list")
+  expect_true(length(test_data_cont) == 3)
+  expect_true(class(test_data_cont[[1]]) == "numeric")
+  expect_true(class(test_data_cont[[2]]) == "integer")
+  expect_identical(class(test_data_cont[[3]]), "data.frame")
+  expect_true(length(test_data_cont[[1]]) == 100)
+  expect_true(length(test_data_cont[[2]]) == 100)
+  expect_true(nrow(test_data_cont[[3]]) == 100)
+  expect_true(ncol(test_data_cont[[3]]) == 10)
+
+  # 4 rules
+  test_data_cont <- generate_cre_dataset(n = 100, rho = 0, n_rules = 4, p = 10,
                                          effect_size = 0.5, binary = TRUE)
   expect_true(class(test_data_cont) == "list")
   expect_true(length(test_data_cont) == 3)

@@ -7,16 +7,15 @@ test_that("Poisson ITE Estimated Correctly", {
   z <- dataset_cont[["z"]]
   X <- dataset_cont[["X"]]
   X_names <- names(X)
-  include_offset <- FALSE
-  offset_name <- NA
 
-  # Incorrect data inputs
-  expect_error(estimate_ite_poisson(y = "test", z, X, X_names, include_offset, offset_name))
-  expect_error(estimate_ite_poisson(y, z = "test", X, X_names, include_offset, offset_name))
-  expect_error(estimate_ite_poisson(y, z, X = NA, X_names, include_offset, offset_name))
+  # Check with and without offset
+  ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset = FALSE,
+                                     offset_name = NA)
+  expect_true(class(ite_result) == "numeric")
+  expect_true(length(ite_result) == length(y))
 
-  # Correct outputs
-  ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset, offset_name)
+  ite_result <- estimate_ite_poisson(y, z, X, X_names, include_offset = TRUE,
+                                     offset_name = X_names[1])
   expect_true(class(ite_result) == "numeric")
   expect_true(length(ite_result) == length(y))
 })

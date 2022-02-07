@@ -124,6 +124,10 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     stop("Invalid 'q' input. Please input a number.")
   }
 
+  if (!(class(cate_SL_library) %in% c("character", "logical"))){
+    stop("Invalid 'q' input. Please input a number.")
+  }
+
   ite_method_dis <- tolower(ite_method_dis)
   if (!(ite_method_dis %in% c("ipw", "sipw", "aipw", "or", "bart", "xbart",
                               "bcf", "xbcf", "cf", "poisson"))) {
@@ -220,6 +224,9 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
 
   # Check for correct offset input
   if ((ite_method_dis == "poisson") | (ite_method_inf == "poisson") | (cate_method == "poisson")) {
+    if (!(include_offset %in% c(TRUE, FALSE))) {
+      stop("Please specify 'TRUE' or 'FALSE' for the include_offset argument.")
+    }
     if (include_offset == TRUE) {
       if (is.na(offset_name)) {
         stop(paste("Invalid offset_name input. Please specify an offset_name ",
