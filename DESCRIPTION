@@ -64,10 +64,11 @@ Suggests:
     testthat (>= 3.0.0),
     XBART,
     XBCF
+Additional_repositories: 
+    https://github.com/JingyuHe/XBART/,
+    https://github.com/johaupt/XBCF/    
 VignetteBuilder: 
     knitr
-Additional_repositories: https://github.com/JingyuHe/XBART,
-    https://github.com/johaupt/XBCF
 Copyright: Harvard University
 Encoding: UTF-8
 Language: en-US

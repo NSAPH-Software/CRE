@@ -23,7 +23,9 @@
 #' X <- as.data.frame(dataset[["X"]])
 #' ps_method <- "SL.xgboost"
 #'
-#' ite_list <- estimate_ite_xbcf(y, z, X, ps_method)
+#' if (requireNamespace("XBCF", quietly = TRUE)) {
+#'     ite_list <- estimate_ite_xbcf(y, z, X, ps_method)
+#' }
 #'
 estimate_ite_xbcf <- function(y, z, X, ps_method) {
 

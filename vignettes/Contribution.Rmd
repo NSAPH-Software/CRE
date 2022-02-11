@@ -14,4 +14,123 @@ knitr::opts_chunk$set(
 )
 ```
 
-Contribution ... 
+CRE is an open source package and contributions are welcome from open source community in the form of pull request.Please read the following documents before making changes to the codebase.
+
+## Environment Setup
+
+Please follow these steps to get a copy of _CRE_ on your Github account. 
+
+- Navigate to CRE Github [repository](https://github.com/fasrc/CRE), and at the top right corner, click on the `Fork` button. This will add a clone of the project to your Github account.
+- Open your terminal (or Gitbash for Windows, Anaconda prompt, ...) and run the following command  (brackets are not included):
+
+```S
+git clone git@github.com:[your user name]/CRE.git
+```
+- If you do not already have an SSH key, you need to generate one. Read more [here](https://docs.github.com/en/github-ae@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+- Now, you can modify the codebase and track your modification.
+- It is a good idea to create a new branch to work on the codebase. Read the following instructions for git branching.
+
+## Git Branching Model
+
+Although, in your personal repository, you can pick any branch name, however, in order to keep consistency and also understand who is working on what, the following convention is strongly recommended.  In this project, we follow the convention that is proposed by Vincent Driessen in his [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/) post.
+
+## Where to submit pull requests?
+
+All pull requests should be submitted to `base repository: fasrc/CRE` and `base: develop` branch.
+
+## Pull request checklist
+
+- Please run `devtools::document()`, `devtools::load_all()` after your final modifications.
+- Make sure that your modified code passes all checks and tests (you can run `devtools::check()` in RStudio)
+- Your PR should pass all the CI and reviews so we can merge it.
+- Add a line(s) about the modification to the NEWS.md file.
+- If you are adding new features, please make sure that appropriate documentation is added or updated.
+- Please clean up white spaces. Read more [here](https://softwareengineering.stackexchange.com/questions/121555/why-is-trailing-whitespace-a-big-deal).
+
+## Reporting bugs
+
+Please report potential bugs by creating a [new issue](https://github.com/fasrc/CRE/issues) or sending us an email. Please include the following information in your bug report:
+
+- A brief description of what you are doing, what you expected to happen, and what happened. 
+- OS that you are using and whether you are using a personal computer or HPC cluster. 
+- The version of the package that you have installed.
+
+## Style Guide
+
+In this project, we follow the [tidyverse style guide](https://style.tidyverse.org). 
+
+### Summary
+
+#### Names
+
+- File names all snake_case and ends with .R (e.g., create_matching.R)
+- variable names small letter and separate with _ if need (e.g., delta_n)
+- Function names should follow snake_case style (e.g., generate_data)
+- Function names follow verb+output convention (e.g., compute_resid)
+
+#### Spaces and Indentation
+
+- Indentations are two spaces (do not use tab)
+- Place space around binary operators (e.g., x + y)
+
+```R
+#Acceptable:
+z <- x + y
+#Not recommended:
+z<-x+y # (no space)
+z<- x+y
+z<-x +y
+```
+
+- Place space after comma
+
+```R
+#Acceptable:
+a <- matrix(c(1:100), nrow = 5)
+#Not recommended:
+a <- matrix(c(1:100),nrow = 5) # (no space after comma)
+a <- matrix( c(1:100), nrow = 5 ) # (extra space after and before parentheses)
+a<-matrix(c(1:100), nrow = 5) # (no space around unary operator <- )
+```
+
+- Place space after # and before commenting and avoid multiple ###
+
+```R
+#Acceptable:
+# This is a comment
+#Not recommended:
+#This is a comment
+#    This is a comment (more than one space after #)
+## This is a comment (multiple #)
+###    This is a comment (multiple # and more than one space)
+```
+
+- Do not put space at the opening and closing the parenthesis
+
+```R
+#Acceptable:
+x <- (z + y)
+#Not recommended:
+x <- ( z + y ) # (unnecessary space)
+x <- (z + y )
+x <- ( z + y)
+```
+
+- Place a space before and after `()` when used with `if`, `for`, or `while`.
+
+```R
+#Acceptible
+if (x > 2) {
+  print(x)
+}
+# Not recommended
+if(x > 2){
+  print(x)
+}
+```
+
+#### Other notes
+
+- Maximum line length is 80 character
+- Use explicit returns
+- Use explicit tags in documentation (e.g., @title, @description, ...)

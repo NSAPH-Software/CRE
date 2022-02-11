@@ -25,7 +25,9 @@
 #' include_ps <- TRUE
 #' ps_method <- "SL.xgboost"
 #'
-#' ite_list <- estimate_ite_xbart(y, z, X, include_ps, ps_method)
+#' if (requireNamespace("XBART", quietly = TRUE)) {
+#'     ite_list <- estimate_ite_xbart(y, z, X, include_ps, ps_method)
+#' }
 #'
 estimate_ite_xbart <- function(y, z, X, include_ps, ps_method) {
 
