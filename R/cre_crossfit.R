@@ -382,11 +382,14 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
     cate_S3 <- list()
     cate_S3[["ATE_dis"]] <- mean(ite_dis_1)
     cate_S3[["ATE_inf"]] <- mean(ite_inf_1)
+    cate_S3[["ite_list_dis_1"]] <- ite_list_dis_1
+    cate_S3[["ite_list_inf_1"]] <- ite_list_inf_1
     cate_S3[["outcome_vector_1"]] <- y_dis
     cate_S3[["treatment_vector_1"]] <- z_dis
     cate_S3[["covariates_matrix_1"]] <- X_dis
-    cate_S3[["ite_list_inf_1"]] <- ite_list_dis_1
-    cate_S3[["ite_list_inf_2"]] <- ite_list_inf_1
+    cate_S3[["outcome_vector_2"]] <- y_inf
+    cate_S3[["treatment_vector_2"]] <- z_inf
+    cate_S3[["covariates_matrix_2"]] <- X_inf
     attr(cate_S3, "class") <- "cre"
 
     # Return Results
@@ -447,10 +450,23 @@ cre_crossfit <- function(y, z, X, ite_method_dis, include_ps_dis = NA,
   select_rules_matrix_std_dis_2 <- rules_matrix_std_dis_2[,which(rules_list_dis_2 %in%
                                                            select_rules_dis_2)]
   if (length(select_rules_dis_2) == 0){
-    stop(paste("No significant rules were discovered (iteration 2). "),
-         "Ending Analysis. The average treatment effect was ",
-         mean(ite_dis_2), " on the Discovery Subsample and ",
-         mean(ite_inf_2), " on the Inference Subsample.")
+    # Generate final S3 object
+    cate_S3 <- list()
+    cate_S3[["ATE_dis"]] <- mean(ite_dis_2)
+    cate_S3[["ATE_inf"]] <- mean(ite_inf_2)
+    cate_S3[["ite_list_dis_2"]] <- ite_list_dis_2
+    cate_S3[["ite_list_inf_2"]] <- ite_list_inf_2
+    cate_S3[["outcome_vector_1"]] <- y_dis
+    cate_S3[["treatment_vector_1"]] <- z_dis
+    cate_S3[["covariates_matrix_1"]] <- X_dis
+    cate_S3[["outcome_vector_2"]] <- y_inf
+    cate_S3[["treatment_vector_2"]] <- z_inf
+    cate_S3[["covariates_matrix_2"]] <- X_inf
+    attr(cate_S3, "class") <- "cre"
+
+    # Return Results
+    logger::log_info("No significant rules were discovered (iteration 2).")
+    return(cate_S3)
   }
 
   # Inference ------------------------------------------------------------------

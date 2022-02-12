@@ -348,10 +348,23 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
 
   if (length(select_rules_dis) == 0){
-    stop(paste("No significant rules were discovered. "),
-         "Ending Analysis. The average treatment effect was ",
-         mean(ite_dis), " on the Discovery Subsample and ",
-         mean(ite_inf), " on the Inference Subsample.")
+    # Generate final S3 object
+    cate_S3 <- list()
+    cate_S3[["ATE_dis"]] <- mean(ite_dis)
+    cate_S3[["ATE_inf"]] <- mean(ite_inf)
+    cate_S3[["ite_list_dis"]] <- ite_list_dis
+    cate_S3[["ite_list_inf"]] <- ite_list_inf
+    cate_S3[["outcome_vector_dis"]] <- y_dis
+    cate_S3[["treatment_vector_dis"]] <- z_dis
+    cate_S3[["covariates_matrix_dis"]] <- X_dis
+    cate_S3[["outcome_vector_inf"]] <- y_inf
+    cate_S3[["treatment_vector_inf"]] <- z_inf
+    cate_S3[["covariates_matrix_inf"]] <- X_inf
+    attr(cate_S3, "class") <- "cre"
+
+    # Return Results
+    logger::log_info("No significant rules were discovered (iteration 1).")
+    return(cate_S3)
   }
 
   # Estimate CATE ----------------------
