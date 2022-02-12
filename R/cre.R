@@ -335,9 +335,6 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
                                                        select_rules_dis)]
   select_rules_matrix_std_dis <- rules_matrix_std_dis[,which(rules_list_dis %in%
                                                              select_rules_dis)]
-  if (length(select_rules_dis) == 0){
-     stop("No significant rules were discovered. Ending Analysis.")
-  }
 
   # Inference ------------------------------------------------------------------
 
@@ -349,6 +346,13 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
   ite_inf <- ite_list_inf[["ite"]]
   ite_std_inf <- ite_list_inf[["ite_std"]]
   sd_ite_inf <- ite_list_inf[["sd_ite"]]
+
+  if (length(select_rules_dis) == 0){
+    stop(paste("No significant rules were discovered. "),
+         "Ending Analysis. The average treatment effect was ",
+         mean(ite_dis), " on the Discovery Subsample and ",
+         mean(ite_inf), " on the Inference Subsample.")
+  }
 
   # Estimate CATE ----------------------
   logger::log_info("Estimating CATE ...")
