@@ -120,6 +120,9 @@ rules_method <- NA
 include_offset <- FALSE
 offset_name <- NA
 filter_cate <- FALSE
+```
+
+```{r, warning=FALSE}
 # Poisson CATE estimation with Poisson ITE estimation
 print("Testing Poisson CATE estimation with Poisson ITE estimation")
 cre_results_1 <- cre(y = abs(y), z, X, ratio_dis, ite_method_dis = "poisson",
@@ -130,7 +133,6 @@ cre_results_1 <- cre(y = abs(y), z, X, ratio_dis, ite_method_dis = "poisson",
                      max_nodes, t, q, stability_selection = TRUE, 
                      pfer_val = 0.1, include_offset, offset_name,
                      cate_method = "poisson", cate_SL_library = NA)
-cre_results_1[["CATE_results"]][,1]
 cre_results_1[["CATE_results"]][,1]
 ```
 
@@ -146,7 +148,6 @@ cre_results_2 <- cre(y, z, X, ratio_dis, ite_method_dis = "aipw",
                      pfer_val = 0.1, include_offset, offset_name, 
                      cate_method = "DRLearner", cate_SL_library = "SL.xgboost")
 cre_results_2[["CATE_results"]][,1]
-cre_results_2[["CATE_results"]][,1]
 ```
 
 ```{r, warning=FALSE}
@@ -161,11 +162,10 @@ cre_results_3 <- cre(y, z, X, ratio_dis, ite_method_dis = "bcf",
                      pfer_val = 0.1, include_offset, offset_name,
                      cate_method = "cf-means", cate_SL_library = NA)
 cre_results_3[["CATE_results"]][,1]
-cre_results_3[["CATE_results"]][,1]
-plot(cre_results_3)
 ```
 
 ```{r, warning=FALSE}
+# Linear Regression CATE estimation with BART ITE estimation
 cre_results_4 <- cre(y, z, X, ratio_dis, ite_method_dis = "bart",
                      include_ps_dis = TRUE, ps_method_dis = "SL.xgboost",
                      or_method_dis = NA, ite_method_inf = "bart",
@@ -174,6 +174,5 @@ cre_results_4 <- cre(y, z, X, ratio_dis, ite_method_dis = "bart",
                      max_nodes, t, q, stability_selection = TRUE, 
                      pfer_val = 0.1, include_offset,
                      offset_name, cate_method = "linreg", cate_SL_library = NA)
-cre_results_4[["CATE_results"]][,1]
 cre_results_4[["CATE_results"]][,1]
 ```

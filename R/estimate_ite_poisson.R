@@ -38,10 +38,16 @@ estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) 
     X_treated <- as.data.frame(X[z==1, -which(X_names == offset_name)])
     y_control <- data.frame(y = y[z==0])
     X_control <- as.data.frame(X[z==0 ,-which(X_names == offset_name)])
-    offset_treated <- data.frame(offset_treated = X[z==1,
-                                                    which(X_names == offset_name)])
-    offset_control <- data.frame(offset_control = X[z==0,
-                                                    which(X_names == offset_name)])
+
+    # generate data frames with offsets
+    offset_treated <- data.frame(
+      offset_treated = X[z==1, which(X_names == offset_name)])
+    offset_control <- data.frame(
+      offset_control = X[z==0, which(X_names == offset_name)])
+    assign("offset_treated", offset_treated, envir = .GlobalEnv)
+    assign("offset_control", offset_control, envir = .GlobalEnv)
+
+    # fit model
     model_data_treated <- cbind(y_treated, X_treated)
     model_data_control <- cbind(y_control, X_control)
     temp1 <- stats::glm(y ~ ., data = model_data_treated,
@@ -65,5 +71,7 @@ estimate_ite_poisson <- function(y, z, X, X_names, include_offset, offset_name) 
   y1hat <- suppressWarnings(stats::predict(temp1, as.data.frame(X)))
   y0hat <- suppressWarnings(stats::predict(temp0, as.data.frame(X)))
   ite <- y1hat - y0hat
+
+  # return ite
   return(ite)
 }

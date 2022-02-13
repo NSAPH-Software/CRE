@@ -99,24 +99,28 @@ test_that("CATE Estimation Runs Correctly", {
   ###### Run Tests ######
 
   # Check methods
-  cate_inf <- estimate_cate(abs(y_inf), z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method = "poisson",
-                            ite_inf, sd_ite_inf, cate_SL_library, filter_cate)
-  expect_true(class(cate_inf) == "data.frame")
-
-  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
-                            offset_name, rules_matrix_inf,
-                            select_rules_interpretable, cate_method = "bart-baggr",
-                            ite_inf, sd_ite_inf, cate_SL_library, filter_cate)
+  cate_inf <- suppressWarnings(estimate_cate(abs(y_inf), z_inf, X_inf, X_names,
+                                             include_offset, offset_name,
+                                             rules_matrix_inf,
+                                             select_rules_interpretable,
+                                             cate_method = "poisson",
+                                             ite_inf, sd_ite_inf,
+                                             cate_SL_library, filter_cate))
   expect_true(class(cate_inf) == "data.frame")
 
   # test passes, commenting out to save time
   #cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
   #                          offset_name, rules_matrix_inf,
-  #                          select_rules_interpretable, cate_method = "cf-means",
+  #                          select_rules_interpretable, cate_method = "bart-baggr",
   #                          ite_inf, sd_ite_inf, cate_SL_library, filter_cate)
   #expect_true(class(cate_inf) == "data.frame")
+
+
+  cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
+                            offset_name, rules_matrix_inf,
+                            select_rules_interpretable, cate_method = "cf-means",
+                            ite_inf, sd_ite_inf, cate_SL_library, filter_cate)
+  expect_true(class(cate_inf) == "data.frame")
 
   cate_inf <- estimate_cate(y_inf, z_inf, X_inf, X_names, include_offset,
                             offset_name, rules_matrix_inf,
