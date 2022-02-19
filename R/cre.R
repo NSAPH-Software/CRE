@@ -363,7 +363,7 @@ cre <- function(y, z, X, ratio_dis, ite_method_dis, include_ps_dis = NA,
     attr(cate_S3, "class") <- "cre"
 
     # Return Results
-    logger::log_info("No significant rules were discovered (iteration 1).")
+    logger::log_info("No significant rules were discovered.")
     return(cate_S3)
   }
 
