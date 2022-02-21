@@ -37,7 +37,6 @@ Imports:
     BART,
     bartCause,
     bcf,
-    causalTree,
     devtools,
     doParallel,
     dplyr,
