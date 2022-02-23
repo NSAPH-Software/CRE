@@ -1,5 +1,20 @@
 ## CRE development
 
+## CRE 0.0.3 (2022-02-23)
+
+### Changed
+* `select_causal_rules` use stability selection as the main rules selection method
+* `cre` and `cre_crossfit` update returned S3 objects; add PFER argument; return ATE when no significant rules and discovered
+* increase test coverage and remove redundant tests
+* `plot_cre` fix plotting errors 
+
+### Added
+* `summary_cre` return summary of cre object
+* `print_cre` print summary of cre object 
+
+
+## CRE 0.0.2 (2021-10-20)
+
 ### Changed
 * `estimate_cate` include five methods for estimating the CATE values (`poisson`, `DRLearner`, `bart-baggr`, `cf-means`, `linreg`)
 * `cre` added new arguments to (1) complement `SuperLearner` package (`ps_method_dis`, `ps_method_inf`, `or_method_dis`, `or_method_inf`, `cate_SL_library`) and to (2) select CATE method and (3) whether to filter CATE p-values (`cate_method` and `filter_cate`). Now returns an S3 object.
