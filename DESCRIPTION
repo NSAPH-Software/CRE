@@ -46,7 +46,6 @@ Imports:
     glmnet,
     gnm,
     grf,
-    inTrees,
     logger,
     magrittr,
     MASS,
@@ -62,6 +61,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
+    inTrees,
     XBART,
     XBCF
 Additional_repositories: 

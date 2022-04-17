@@ -164,7 +164,7 @@ cre_results_3 <- cre(y, z, X, ratio_dis, ite_method_dis = "bcf",
 cre_results_3[["CATE_results"]][,1]
 ```
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, eval=FALSE}
 # Linear Regression CATE estimation with BART ITE estimation
 cre_results_4 <- cre(y, z, X, ratio_dis, ite_method_dis = "bart",
                      include_ps_dis = TRUE, ps_method_dis = "SL.xgboost",

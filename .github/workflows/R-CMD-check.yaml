@@ -93,6 +93,7 @@ jobs:
           remotes::install_cran("RcppParallel")
           devtools::install_github("JingyuHe/XBART")
           devtools::install_github("socket778/XBCF")
+          devtools::install_version("inTrees",version="1.2")
         shell: Rscript {0}
 
       - name: Check
