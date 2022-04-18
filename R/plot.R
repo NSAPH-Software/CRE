@@ -10,6 +10,8 @@
 #' @return
 #' Returns a ggplot object.
 #'
+#' @export
+#'
 #' @keywords internal
 #' @importFrom ggplot2 autoplot
 #'
