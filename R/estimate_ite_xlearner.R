@@ -22,16 +22,16 @@ estimate_ite_xlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
 
   X <- as.data.frame(X)
 
-  y_0_model <- SuperLearner::SuperLearner(Y = y[z==0],
-                                          X = X[z==0,],
+  y_0_model <- SuperLearner::SuperLearner(Y = y[z == 0],
+                                          X = X[z == 0,],
                                           family = gaussian(),
                                           SL.library = oreg_method,
                                           cvControl = list(V = 0))
 
   if (sum(y_0_model$coef) == 0) y_0_model$coef[1] <- 1
 
-  y_1_model <- SuperLearner::SuperLearner(Y = y[z==1],
-                                          X = X[z==1,],
+  y_1_model <- SuperLearner::SuperLearner(Y = y[z == 1],
+                                          X = X[z == 1,],
                                           family = gaussian(),
                                           SL.library = oreg_method,
                                           cvControl = list(V = 0))
@@ -39,8 +39,8 @@ estimate_ite_xlearner <- function(y, z, X, oreg_method = "SL.xgboost") {
   if (sum(y_1_model$coef) == 0) y_1_model$coef[1] <- 1
 
   ite <- array(0, dim = length(y))
-  ite[z==0] <- predict(y_1_model, X[z==0,], onlySL = TRUE)$pred - y[z==0]
-  ite[z==1] <- y[z==1] - predict(y_0_model, X[z==1,], onlySL = TRUE)$pred
+  ite[z == 0] <- predict(y_1_model, X[z == 0,], onlySL = TRUE)$pred - y[z == 0]
+  ite[z == 1] <- y[z == 1] - predict(y_0_model, X[z == 1,], onlySL = TRUE)$pred
   ite <- as.vector(ite)
 
   return(ite)

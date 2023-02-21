@@ -71,7 +71,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
   }
 
   if (ite_method == "slearner") {
-    check_args(c('oreg_method'), arg_names)
+    check_args(c("oreg_method"), arg_names)
     ite <- estimate_ite_slearner(y, z, X, oreg_method)
   } else if (ite_method == "tlearner") {
     check_args(c("oreg_method"), arg_names)
@@ -86,7 +86,7 @@ estimate_ite <- function(y, z, X, ite_method, ...) {
     check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_bart(y, z, X, ps_method)
   } else if (ite_method == "bcf") {
-    check_args(c('ps_method'), arg_names)
+    check_args(c("ps_method"), arg_names)
     ite <- estimate_ite_bcf(y, z, X, ps_method)
   } else if (ite_method == "cf") {
     check_args(c("ps_method"), arg_names)

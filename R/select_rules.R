@@ -46,7 +46,7 @@ select_rules <- function(rules_matrix, rules_list, ite,
       stab_mod <- tryCatch(
         {
           stabs::stabsel(x = as.data.frame(rules_matrix),
-                         y = ite-mean(ite),
+                         y = ite - mean(ite),
                          intercept = FALSE,
                          fitfun = "glmnet.lasso",
                          cutoff = cutoff,
@@ -64,7 +64,7 @@ select_rules <- function(rules_matrix, rules_list, ite,
     } else {
       # vanilla LASSO
       cv_lasso <- glmnet::cv.glmnet(x = rules_matrix,
-                                    y = ite-mean(ite),
+                                    y = ite - mean(ite),
                                     alpha = 1,
                                     intercept = FALSE)
       aa <- stats::coef(cv_lasso, s = cv_lasso$lambda.1se)

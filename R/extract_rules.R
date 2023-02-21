@@ -18,29 +18,31 @@
 #'
 extract_rules <- function(treelist, X, max_depth, digits = 2) {
 
-  if(is.numeric(digits)) digits <- as.integer(abs(digits))
-  levelX <- list()
-  for (iX in 1:ncol(X)) levelX <- c(levelX,list(levels(X[,iX])))
-  ntree = min(treelist$ntree)
-  allRulesList = list()
+  if (is.numeric(digits)) digits <- as.integer(abs(digits))
+  level_x <- list()
+  for (iX in seq_len(ncol(X))) level_x <- c(level_x, list(levels(X[, iX])))
+  ntree <- min(treelist$ntree)
+  all_rules_list <- list()
   for (iTree in 1:ntree) {
-    rule <- list(); count <- 0; rowIx <- 1;
+    rule <- list()
+    count <- 0
+    rowIx <- 1
     tree <- treelist$list[[iTree]]
     if (nrow(tree) <= 1) next # skip if there is no split
-    ruleSet <- vector("list", length(which(tree[,"status"] == -1)))
-    res = inTrees::treeVisit(tree,
-                             rowIx = rowIx,
-                             count,
-                             ruleSet,
-                             rule,
-                             levelX,
-                             length = 0,
-                             max_length = max_depth,
-                             digits = digits)
-    allRulesList = c(allRulesList, res$ruleSet)
+    ruleSet <- vector("list", length(which(tree[, "status"] == -1)))
+    res <- inTrees::treeVisit(tree,
+                              rowIx = rowIx,
+                              count,
+                              ruleSet,
+                              rule,
+                              level_x,
+                              length = 0,
+                              max_length = max_depth,
+                              digits = digits)
+    all_rules_list <- c(all_rules_list, res$ruleSet)
   }
 
-  allRulesList <- allRulesList[!unlist(lapply(allRulesList, is.null))]
-  rules <- inTrees::ruleList2Exec(X,allRulesList)
+  all_rules_list <- all_rules_list[!unlist(lapply(all_rules_list, is.null))]
+  rules <- inTrees::ruleList2Exec(X, all_rules_list)
   return(rules)
 }

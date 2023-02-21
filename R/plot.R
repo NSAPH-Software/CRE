@@ -15,7 +15,7 @@
 #'
 autoplot.cre <- function(object, ...) {
 
-  `%>%` <- magrittr::`%>%`
+  "%>%" <- magrittr::"%>%"
 
   Rule <- Estimate <- CI_lower <- CI_upper <- NULL
 
@@ -29,10 +29,10 @@ autoplot.cre <- function(object, ...) {
   }
 
   cate <- object[["CATE"]]
-  ate <- cate[1,]
-  aate <- cate[2:nrow(cate),]
-  aate <- aate[order(aate$Estimate, decreasing = TRUE),]
-  rownames(aate) <- 1:nrow(aate)
+  ate <- cate[1, ]
+  aate <- cate[2:nrow(cate), ]
+  aate <- aate[order(aate$Estimate, decreasing = TRUE), ]
+  rownames(aate) <- seq_len(nrow(aate))
 
   g <- ggplot2::ggplot(data = aate) +
     ggplot2::geom_hline(yintercept = 0, color = "dark grey", lty = 2) +
@@ -40,13 +40,13 @@ autoplot.cre <- function(object, ...) {
                                          ymin = CI_lower,
                                          ymax = CI_upper),
                             lwd = 1,
-                            position = ggplot2::position_dodge(width = 1/2)) +
+                            position = ggplot2::position_dodge(width = 1 / 2)) +
     ggplot2::geom_pointrange(ggplot2::aes(x = reorder(Rule, Estimate),
                                           y = Estimate,
                                           ymin = CI_lower,
                                           ymax = CI_upper),
-                             lwd = 1/2,
-                             position = ggplot2::position_dodge(width = 1/2),
+                             lwd = 1 / 2,
+                             position = ggplot2::position_dodge(width = 1 / 2),
                              shape = 21, fill = "WHITE") +
     ggplot2::xlab("") +
     ggplot2::ylab("AATE") +
@@ -55,9 +55,9 @@ autoplot.cre <- function(object, ...) {
     ggplot2::ggtitle(paste("Causal Rule Ensemble: ",
                            "\nConditional Average Treatment Effect",
                            "\nLinear Decomposition",
-                           "\n\nATE = ", round(ate[["Estimate"]],3),
-                           " [", round(ate[["CI_lower"]],3), ",",
-                           round(ate[["CI_upper"]],3), "]", sep="")) +
+                           "\n\nATE = ", round(ate[["Estimate"]], 3),
+                           " [", round(ate[["CI_lower"]], 3), ",",
+                           round(ate[["CI_upper"]], 3), "]", sep = "")) +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
 
   return(g)

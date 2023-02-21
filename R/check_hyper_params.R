@@ -40,7 +40,7 @@ check_hyper_params <- function(X_names, params) {
 
   if (params[["ntrees_gbm"]] + params[["ntrees_rf"]] == 0) {
     stop("The total number of trees (ntrees_rf + ntrees_gbm) has to be
-         greater than 0")
+         greater than 0.")
   }
 
   node_size <- getElement(params, "node_size")
@@ -51,6 +51,7 @@ check_hyper_params <- function(X_names, params) {
       stop("Invalid 'node_size' input. Please input a number.")
     }
   }
+
   params[["node_size"]] <- node_size
 
   max_nodes <- getElement(params, "max_nodes")
@@ -173,8 +174,8 @@ check_hyper_params <- function(X_names, params) {
     for (intervention_var in intervention_vars) {
       if (!(intervention_var %in% X_names))
         stop(paste(intervention_var,
-              "variable is not observed. Please select a set of",
-              "'intervention_vars' included among the observed covariates."))
+              " variable is not observed. Please select a set of",
+              " 'intervention_vars' included among the observed covariates."))
     }
   }
   params[["intervention_vars"]] <- intervention_vars
@@ -184,8 +185,8 @@ check_hyper_params <- function(X_names, params) {
   if (!is.null(offset)) {
     if (!(offset %in% X_names)) {
       stop(paste(offset,
-                 "variable is not observed. Please select a ",
-                 "'offset' included among the observed covariates."))
+                 " variable is not observed. Please select a ",
+                 " 'offset' included among the observed covariates."))
     }
   }
   params[["offset"]] <- offset

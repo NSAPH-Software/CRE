@@ -27,9 +27,9 @@
 #'
 estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
 
-  `%>%` <- magrittr::`%>%`
+  "%>%" <- magrittr::"%>%"
 
-  logger::log_debug("Estimating CATE ...")
+  logger::log_debug("Estimating CATE ... ")
 
   # Estimate ATE (if No Rules Selected)
   ate_model <- stats::lm(ite ~ 1)
@@ -41,21 +41,21 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
                             CI_upper = ate_ci[2],
                             P_Value = ate_coeff[2])
   rownames(ate_summary) <- 1:nrow(ate_summary)
-  if (length(rules_explicit)==0) {
+  if (length(rules_explicit) == 0) {
     cate_summary <- ate_summary
     aate_model <- NA
   } else {
     # Estimate AATEs
     rules_df_inf <- as.data.frame(rules_matrix)
     names(rules_df_inf) <- rules_explicit
-    aate_model <- stats::lm(ite-mean(ite) ~ . -1, data = rules_df_inf)
+    aate_model <- stats::lm(ite - mean(ite) ~ . -1, data = rules_df_inf)
     filter_na <- is.na(aate_model$coefficients)
     if (sum(filter_na)) {
-      rules_matrix <- rules_matrix[,!filter_na]
+      rules_matrix <- rules_matrix[, !filter_na]
       rules_explicit <- rules_explicit[!filter_na]
       return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
     }
-    aate_coeff <- summary(aate_model)$coef[, c(1, 4), drop=FALSE] %>%
+    aate_coeff <- summary(aate_model)$coef[, c(1, 4), drop = FALSE] %>%
                   as.data.frame()
     aate_ci <- stats::confint(aate_model) %>% as.data.frame()
     aate_summary <- data.frame(Rule = rules_explicit,
@@ -66,13 +66,13 @@ estimate_cate <- function(rules_matrix, rules_explicit, ite, t_pvalue) {
     if (t_pvalue < 1) {
       filter_pvalue <- aate_summary$P_Value <= t_pvalue
       if (sum(filter_pvalue) < length(filter_pvalue)) {
-        rules_matrix <- rules_matrix[,filter_pvalue, drop=FALSE]
+        rules_matrix <- rules_matrix[, filter_pvalue, drop = FALSE]
         rules_explicit <- rules_explicit[filter_pvalue]
         return(estimate_cate(rules_matrix, rules_explicit, ite, t_pvalue))
       }
     }
     cate_summary <- rbind(ate_summary, aate_summary)
-    rownames(cate_summary) <- 1:nrow(cate_summary)
+    rownames(cate_summary) <- seq_along(1:nrow(cate_summary))
 
     # Filter Not Significant Rules
     # TODO: This section needs refactoring. Calling the function itself, while

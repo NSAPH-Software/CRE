@@ -49,7 +49,7 @@ generate_rules <- function(X, ite, ntrees_rf, ntrees_gbm,
   # Gradient Boosting
   if (ntrees_gbm > 0) {
     mn <- max_nodes
-    forest_GB <- gbm::gbm(ite ~.,
+    forest_GB <- gbm::gbm(ite ~ .,
                           data = as.data.frame(X),
                           n.trees = ntrees_gbm,
                           interaction.depth = max_depth,
@@ -65,7 +65,7 @@ generate_rules <- function(X, ite, ntrees_rf, ntrees_gbm,
 
   rules <- unique(c(rules_RF, rules_GB))
   en_time <- proc.time()
-  logger::log_debug("Done with generating (candidate) rules.. ",
+  logger::log_debug("Done with generating (candidate) rules. ",
                     "(WC: {g_wc_str(st_time, en_time)}", ".)")
   return(rules)
 }

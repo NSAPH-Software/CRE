@@ -18,7 +18,7 @@ filter_extreme_rules <- function(rules_matrix, rules_list, t_ext) {
   logger::log_debug("Filtering extreme rules...")
 
   # Identify rules with too few or too many observations
-  ind <- 1:dim(rules_matrix)[2]
+  ind <- seq_len(dim(rules_matrix)[2])
   sup <- apply(rules_matrix, 2, mean)
   elim <- which((sup < t_ext) | (sup > (1 - t_ext)))
   if (length(elim) > 0) ind <- ind[-elim]
