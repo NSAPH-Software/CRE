@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-CRE is an open source package and contributions are welcome from open source community in the form of pull request.Please read the following documents before making changes to the codebase.
+CRE is an open-source package, and contributions are welcome from the open-source community through a pull request, opening issues, or discussions. Please read the following documents before making changes to the codebase.
 
 ## Environment Setup
 
@@ -36,35 +36,35 @@ Although, in your personal repository, you can pick any branch name, however, in
 
 ## Where to submit pull requests?
 
-All pull requests should be submitted to `base repository: fasrc/CRE` and `base: develop` branch.
+All pull requests should be submitted to `base repository: NSAPH-Software/CRE` and `base: develop` branch.
 
 ## Pull request checklist
 
 - Please run `devtools::document()`, `devtools::load_all()` after your final modifications.
 - Make sure that your modified code passes all checks and tests (you can run `devtools::check()` in RStudio)
-- Your PR should pass all the CI and reviews so we can merge it.
+- Your PR should pass all the CI and reviews so we can start review and merge it.
 - Add a line(s) about the modification to the NEWS.md file.
-- If you are adding new features, please make sure that appropriate documentation is added or updated.
+- If you are adding new features, please make sure that appropriate documentation and tests are added or updated.
 - Please clean up white spaces. Read more [here](https://softwareengineering.stackexchange.com/questions/121555/why-is-trailing-whitespace-a-big-deal).
 
 ## Reporting bugs
 
 Please report potential bugs by creating a [new issue](https://github.com/NSAPH-Software/CRE/issues) or sending us an email. Please include the following information in your bug report:
 
-- A brief description of what you are doing, what you expected to happen, and what happened. 
+- A brief description of what you are doing, what you expected to happen, and what actually happened. 
 - OS that you are using and whether you are using a personal computer or HPC cluster. 
-- The version of the package that you have installed.
+- The version of the package that you have installed (run `sessionInfo()`).
 
 ## Style Guide
 
-In this project, we follow the [tidyverse style guide](https://style.tidyverse.org). 
+In this project, we follow the [tidyverse style guide](https://style.tidyverse.org). In the following we have a summary of the mostly used conventions.
 
 ### Summary
 
 #### Names
 
 - File names all snake_case and ends with .R (e.g., create_matching.R)
-- variable names small letter and separate with _ if need (e.g., delta_n)
+- Variable names small letter and separate with _ if need (e.g., delta_n)
 - Function names should follow snake_case style (e.g., generate_data)
 - Function names follow verb+output convention (e.g., compute_resid)
 
@@ -132,5 +132,10 @@ if(x > 2){
 #### Other notes
 
 - Maximum line length is 80 character
+
+##### Extra for this package
+
+The following are not based on tidyverse style, however, we follow them in this package.
+
 - Use explicit returns
 - Use explicit tags in documentation (e.g., @title, @description, ...)

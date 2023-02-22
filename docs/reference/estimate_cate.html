@@ -77,7 +77,7 @@ linearly modeling the Individual Treatment Effect by a set of rules.</p>
 
 
 <dt>rules_explicit</dt>
-<dd><p>A list of select rules in terms of coviariate names.</p></dd>
+<dd><p>A list of select rules in terms of covariate names.</p></dd>
 
 
 <dt>ite</dt>
@@ -93,11 +93,13 @@ linearly modeling the Individual Treatment Effect by a set of rules.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A dataframe summarizing the CATE linear decomposition:</p><ul><li><p>'Rule': rule name,</p></li>
+<p>A list with 2 elements:
+<code>summary</code>: A dataframe summarizing the CATE linear decomposition:</p><ul><li><p>'Rule': rule name,</p></li>
 <li><p>'Estimate': linear contribution to CATE,</p></li>
 <li><p>'CI_lower`: lower bound 95% confidence interval on the estimate,</p></li>
 <li><p>'CI_upper`: upper bound 95% confidence interval on the estimate,</p></li>
-<li><p><code>P-Value</code>: p-value (from Z-test).</p></li>
+<li><p><code>P-Value</code>: p-value (from Z-test).
+<code>model</code>: A linear model for CATE-ATE estimation.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

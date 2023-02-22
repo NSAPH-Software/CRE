@@ -2,7 +2,7 @@
 title: "Testing the CRE Package"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{article_c1}
+  %\VignetteIndexEntry{Testing the package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
