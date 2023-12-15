@@ -25,11 +25,11 @@ authors:
     orcid: 0000-0002-6131-8165
     affiliation: "1"
 affiliations:
- - name: Department of Biostatistics, Harvard School of Public Health
+ - name: Department of Biostatistics, Harvard School of Public Health, Boston, Massachusetts, United States of America
    index: 1
- - name: Department of Computer and Communication Science, EPFL
+ - name: Department of Computer and Communication Science, École Polytechnique Fédérale de Lausanne, Lausanne, Switzerland
    index: 2
- - name: Research Computing, Harvard University
+ - name: Research Computing, Harvard University, Cambridge, Massachusetts, United States of America
    index: 3
 date: 15 March 2023
 bibliography: paper.bib
@@ -41,7 +41,7 @@ header-includes:
 
 # Summary
 
-In health and social sciences, it is critically important to identify interpretable subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect (ATE). Several approaches have already been proposed for heterogenous treatment effect (HTE) discovery, either estimating first the conditional average treatment effect (CATE) and identifying heterogeneous subgroups in a second stage [@foster2011subgroup; @bargagli2020heterogeneous; @hahn2020bayesian; @bargagli2022heterogeneous], either estimating directly these subgroups in a direct data-driven procedure [@wang2022causal; @nagpal2020interpretable]. Many of these methodologies are decision tree-based methodologies. Tree-based approaches are based on efficient and easily implementable recursive mathematical programming (e.g., HTE maximization), they can be easily tweaked and adapted to different scenarios depending on the research question of interest, and they guarantee a high degree of interpretability---i.e., the degree to which a human can understand the cause of a decision [@lakkaraju2016interpretable]. Despite these appealing features, single-tree heterogeneity discovery is characterized by two main limitations: instability in the identification of the subgroups and reduced exploration of the potential heterogeneity. To accommodate these shortcomings, @bargagli2023causal proposed Causal Rule Ensemble, a new method for interpretable HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach. `CRE` is an R package providing a flexible implementation of Causal Rule Ensemble. The package allows for multiple variants of Causal Rule Ensemble algorithm, also including different internal individual average treatment effect (IATE) estimators---i.e., AIPW [@robins1994estimation], Causal Forest [@athey2019generalized], Causal BART [@hill2011bayesian], S-Learner [@hill2011bayesian], T-Learner [@hansotia2002incremental], X-Learner [@kunzel2019metalearners].
+In health and social sciences, it is critically important to identify interpretable subgroups of the study population where a treatment has notable heterogeneity in the causal effects with respect to the average treatment effect (ATE). Several approaches have already been proposed for heterogeneous treatment effect (HTE) discovery, either estimating first the conditional average treatment effect (CATE) and identifying heterogeneous subgroups in a second stage [@foster2011subgroup; @bargagli2020heterogeneous; @hahn2020bayesian; @bargagli2022heterogeneous], either estimating directly these subgroups in a direct data-driven procedure [@wang2022causal; @nagpal2020interpretable]. Many of these methodologies are decision tree-based methodologies. Tree-based approaches are based on efficient and easily implementable recursive mathematical programming (e.g., HTE maximization), they can be easily tweaked and adapted to different scenarios depending on the research question of interest, and they guarantee a high degree of interpretability---i.e., the degree to which a human can understand the cause of a decision [@lakkaraju2016interpretable]. Despite these appealing features, single-tree heterogeneity discovery is characterized by two main limitations: instability in the identification of the subgroups and reduced exploration of the potential heterogeneity. To accommodate these shortcomings, @bargagli2023causal proposed Causal Rule Ensemble, a new method for interpretable HTE characterization in terms of decision rules, via an extensive exploration of heterogeneity patterns by an ensemble-of-trees approach. `CRE` is an R package providing a flexible implementation of Causal Rule Ensemble. The package allows for multiple variants of Causal Rule Ensemble algorithm, also including different internal individual average treatment effect (IATE) estimators---i.e., AIPW [@robins1994estimation], Causal Forest [@athey2019generalized], Causal BART [@hill2011bayesian], S-Learner [@hill2011bayesian], T-Learner [@hansotia2002incremental], X-Learner [@kunzel2019metalearners].
 
 
 # Statement of Need
@@ -85,7 +85,7 @@ X <- dataset$X
 ite <- dataset$ite
 ```
 
-We propose here three examples of how to run the Causal Rule Esemble algorithm by the `CRE` package.
+We propose here three examples of how to run the Causal Rule Ensemble algorithm by the `CRE` package.
 
 **Example 1.** Running Causal Rule Ensemble with default parameters. For a detailed description of the default method and hyper parameters refer to [https://nsaph-software.github.io/CRE/articles/CRE.html](https://nsaph-software.github.io/CRE/articles/CRE.html).
 ```R
