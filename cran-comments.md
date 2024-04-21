@@ -1,26 +1,9 @@
-Resubmission (April 21, 2024):
+Submission (Month 00, 2024):
 
-We appreciate your efforts in reviewing the CRE 0.2.6 package. In this upgrade, we:
+We appreciate your efforts in reviewing the CRE 0.2.7 package. In this upgrade, we:
 
-- Fixed the issue with the arXiv paper format in the DESCRIPTION file. Specifically, we changed ":" to ".". 
-
-Best regards, 
-Naeem Khoshnevis
-
-Resubmission (April 21, 2024):
-
-We appreciate your efforts in reviewing the CRE 0.2.6 package. In this upgrade, we:
-
-- Fixed the issue with the arXiv paper format in the DESCRIPTION file. 
+Transfer the maintainer role from Dr. Naeem Khoshnevis to Dr. Falco Joannes Bargagli Stoffi.
+All tests and checks have passed successfully.
 
 Best regards, 
-Naeem Khoshnevis
-
-Submission (April 21, 2024):
-
-We appreciate your efforts in reviewing the CRE 0.2.6 package. In this upgrade, we:
-
-- Dropped the dependency on the inTrees R package, which is set to be archived on May 4. 
-
-Best regards, 
-Naeem Khoshnevis
+Falco Joannes Bargagli Stoffi
