@@ -1,7 +1,7 @@
 Type: Package
 Package: CRE
 Title: Interpretable Discovery and Inference of Heterogeneous Treatment Effects
-Version: 0.2.6
+Version: 0.2.6.9000
 Authors@R: c(
     person("Naeem", "Khoshnevis", , "nkhoshnevis@g.harvard.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4315-1426", AFFILIATION = "FASRC")),
