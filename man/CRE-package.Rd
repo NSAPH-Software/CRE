@@ -31,6 +31,14 @@ Bargagli-Stoffi, F. J., Cadei, R., Lee, K. and Dominici, F. (2023).
 Causal rule ensemble: Interpretable Discovery and Inference of
 Heterogeneous Treatment Effects,arXiv preprint arXiv:2009.09036
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/NSAPH-Software/CRE}
+  \item Report bugs at \url{https://github.com/NSAPH-Software/CRE/issues}
+}
+
+}
 \author{
 Naeem Khoshnevis
 
