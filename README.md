@@ -69,8 +69,8 @@ __Parameters (not required)__
 **`method_parameters`** The list of parameters to define the models used, including:
 - **`ratio_dis`** The ratio of data delegated to the discovery sub-sample (default: 0.5). 
 - **`ite_method`** The method to estimate the individual treatment effect (ITE) pseudo-outcome estimation (default: "aipw") [1].        
-- **`learner_ps`** The ([SuperLearner](https://CRAN.R-project.org/package=SuperLearner)) model for the propensity score estimation (default: "SL.xgboost", used only for "aipw","bart","cf" ITE estimators).
-- **`learner_y`** The ([SuperLearner](https://CRAN.R-project.org/package=SuperLearner)) model for the outcome estimation (default: "SL.xgboost", used only for "aipw","slearner","tlearner" and "xlearner" ITE estimators).   
+- **`learner_ps`** The SuperLearner model for the propensity score estimation (default: "SL.xgboost", used only for "aipw","bart","cf" ITE estimators).
+- **`learner_y`** The SuperLearner model for the outcome estimation (default: "SL.xgboost", used only for "aipw","slearner","tlearner" and "xlearner" ITE estimators).   
 
 **`hyper_params`** The list of hyper parameters to finetune the method, including:
 - **`intervention_vars`** Array with intervention-able covariates names used for Rules Generation. Empty or null array means that all the covariates are considered as intervention-able (default: `NULL`).  
@@ -95,15 +95,15 @@ __Additional Estimates (not required)__
 ## Notes
 
 **[1]** Options for the ITE estimation are as follows: 
-- [S-Learner](https://CRAN.R-project.org/package=SuperLearner) (`slearner`)
-- [T-Learner](https://CRAN.R-project.org/package=SuperLearner) (`tlearner`)
+- S-Learner (`slearner`)
+- T-Learner (`tlearner`)
 - T-Poisson (`tpoisson`)
-- [X-Learner](https://CRAN.R-project.org/package=SuperLearner) (`xlearner`)
-- [Augmented Inverse Probability Weighting](https://CRAN.R-project.org/package=SuperLearner) (`aipw`)
-- [Causal Forests](https://CRAN.R-project.org/package=grf) (`cf`)
-- [Causal Bayesian Additive Regression Trees](https://CRAN.R-project.org/package=bartCause) (`bart`)
+- X-Learner (`xlearner`)
+- Augmented Inverse Probability Weighting (`aipw`)
+- Causal Forests (`cf`)
+- Causal Bayesian Additive Regression Trees (`bart`)
 
-If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  The ITE estimator requires also an outcome learner and/or a propensity score learner from the [SuperLearner](https://CRAN.R-project.org/package=SuperLearner) package (i.e., "SL.lm", "SL.svm"). Both these models are simple classifiers/regressors. By default XGBoost algorithm is used for both these steps.
+If other estimates of the ITE are provided in `ite` additional argument, both the ITE estimations in discovery and inference are skipped and those values estimates are used instead.  The ITE estimator requires also an outcome learner and/or a propensity score learner from the SuperLearner package (i.e., "SL.lm", "SL.svm"). Both these models are simple classifiers/regressors. By default XGBoost algorithm is used for both these steps.
 
 
 ## Examples
