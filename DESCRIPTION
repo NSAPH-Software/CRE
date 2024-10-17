@@ -4,7 +4,7 @@ Title: Interpretable Discovery and Inference of Heterogeneous Treatment Effects
 Version: 0.2.7
 Authors@R: c(
     person("Naeem", "Khoshnevis", , "nkhoshnevis@g.harvard.edu", role = "aut",
-           comment = c(ORCID = "0000-0003-4315-1426", AFFILIATION = "FASRC")),
+           comment = c(ORCID = "0000-0003-4315-1426")),
     person("Daniela Maria", "Garcia", , "danielagarcia@college.harvard.edu", role = "aut",
            comment = c(ORCID = "0000-0003-3226-3561")),
     person("Riccardo", "Cadei", , "rcadei@hsph.harvard.edu", role = "aut",
