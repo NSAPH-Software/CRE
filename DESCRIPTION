@@ -1,20 +1,20 @@
 Type: Package
 Package: CRE
 Title: Interpretable Discovery and Inference of Heterogeneous Treatment Effects
-Version: 0.2.6
+Version: 0.2.7
 Authors@R: c(
-    person("Naeem", "Khoshnevis", , "nkhoshnevis@g.harvard.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-4315-1426", AFFILIATION = "FASRC")),
+    person("Naeem", "Khoshnevis", , "nkhoshnevis@g.harvard.edu", role = "aut",
+           comment = c(ORCID = "0000-0003-4315-1426")),
     person("Daniela Maria", "Garcia", , "danielagarcia@college.harvard.edu", role = "aut",
            comment = c(ORCID = "0000-0003-3226-3561")),
     person("Riccardo", "Cadei", , "rcadei@hsph.harvard.edu", role = "aut",
            comment = c(ORCID = "0000-0003-2416-8943")),
     person("Kwonsang", "Lee", , "kwonsanglee.stat@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0002-5823-4331")),
-    person("Falco Joannes", "Bargagli Stoffi", , "fbargaglistoffi@hsph.harvard.edu", role = "aut",
+    person("Falco Joannes", "Bargagli Stoffi", , "fbargaglistoffi@hsph.harvard.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6131-8165"))
   )
-Maintainer: Naeem Khoshnevis <nkhoshnevis@g.harvard.edu>
+Maintainer: Falco Joannes Bargagli Stoffi <fbargaglistoffi@hsph.harvard.edu>
 Description: Provides a new method for interpretable heterogeneous 
     treatment effects characterization in terms of decision rules 
     via an extensive exploration of heterogeneity patterns by an 
@@ -63,4 +63,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

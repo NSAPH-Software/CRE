@@ -1,4 +1,9 @@
-# CRE 0.2.5 (2024-4-21)
+# CRE 0.2.7 (2024-10-19)
+
+## Changed
+*  The maintainer role has been transitioned from Dr. Naeem Khoshnevis to Dr. Falco Joannes Bargagli Stoffi.
+
+# CRE 0.2.6 (2024-4-21)
 
 ## Added
 * A copy of inTrees package source code.

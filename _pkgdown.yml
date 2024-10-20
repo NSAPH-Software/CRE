@@ -29,10 +29,6 @@ reference:
     - get_logger
 
 articles:
-  - title: Users
-    navbar: Users
-    contents: []
-
   - title: Developers
     navbar: Developers
     contents: [Contribution, Testing-the-Package]

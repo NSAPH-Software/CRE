@@ -20,7 +20,6 @@
 #' a general two-stage approach for subgroup-specific conditional
 #' causal effects estimation, providing theoretical guarantees.
 #'
-#' @docType package
 #' @name CRE-package
 #' @aliases CRE
 #' @author Naeem Khoshnevis
@@ -43,4 +42,4 @@
 #' Causal rule ensemble: Interpretable Discovery and Inference of
 #' Heterogeneous Treatment Effects,arXiv preprint arXiv:2009.09036
 #'
-NULL
+"_PACKAGE"
